@@ -1,0 +1,170 @@
+/* style pour le header */
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+header img{
+    height: 100px;
+}
+
+/*search section */
+.loup{
+    display: flex;
+    margin: 15px;
+    align-items: center;
+    justify-content: center;
+}
+.loup input{
+outline: none;
+padding: 15px;
+border-radius: 7px;
+
+}
+.loup i{
+position: absolute;
+right: 11%;
+font-size: 20px;
+}
+
+/* style pour la section recette */
+
+#sectionArticle{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+
+}
+/* carte article */
+.artileRecipes{
+    flex: calc(33.33% - 40px);
+    height: 500px;
+    border: solid 1px white;
+    border-radius: 7px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease, transform 0.3s ease; 
+}
+
+.artileRecipes:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ligne de la partie vide d'un article */
+.emptyRow{
+    height: 40%;
+background-color: #c7bebe;
+border-top-left-radius: 7px;
+border-top-right-radius: 7px;
+}
+/* ligne de la partie chargée d'un article */
+.fullRow{
+background-color: #e7e7ef;
+height: 60%;
+border-bottom-left-radius: 7px;
+border-bottom-right-radius: 7px;
+padding: 20px;
+}
+/* ligne nom et temps */
+.nameTimeDiv{
+    margin-bottom: 15px;
+}
+/* description */
+.colDescriptionClass{
+height: 215px;
+overflow: hidden;
+text-overflow: ellipsis;
+
+}
+ul{
+    list-style-type: none;
+}
+.ingredientItem, .nameTimeDiv span{
+    font-weight: 700;
+}
+
+/* STYLE POUR LES DROPDOW */
+
+.filtering{
+    margin: 30px 0px 20px 0px;
+}
+
+.OnDropdownDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 10px;
+    gap: 10px;
+    border: 1px solid white;
+    border-radius: 7px;
+}
+.OnDropdownDiv .bouttonDropdown{
+    font-size: 25px;
+}
+.OnDropdownDiv i{
+    font-size: 18px;
+}
+.bouttonDropdown{
+    border: none;
+    color: white;
+
+
+}
+
+.OnDropdownDivIngredients, .bouttonDropdownIngredients, .dropdownItemIngredients, #inputSearchIngredients{
+background-color: #3282f7;
+}
+
+.OnDropdownDivAppareils, .bouttonDropdownAppareils , .dropdownItemAppareils, #inputSearchAppareils{
+    background-color: #68d9a4;
+}
+.OnDropdownDivUstensiles, .bouttonDropdownUstensiles, .dropdownItemUstensiles, #inputSearchUstensiles{
+    background-color: #ed6454; 
+}
+
+
+.dropdownItem{
+color: white;
+padding: 10px;
+border: 1px solid none;
+border-radius: 7px;
+}
+
+.inputOffDrapdown{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dropdownItem{
+    position: absolute;
+    top: 2%;
+}
+
+.dropdownList{
+    column-count: 3;
+}
+
+.inputSearch{
+padding: 10px;
+margin: 0px 0px 10px 0px;
+outline: none;
+border: none;
+color: white;
+}
+
+
+/* Style du texte du placeholder */
+input[placeholder="Rechercher un ingredient"]::placeholder,
+input[placeholder="Rechercher un appareil"]::placeholder,
+input[placeholder="Rechercher un ustensile"]::placeholder{
+    color: #f0eaea;
+    font-weight: 100;
+}
+
+.fa-solid{
+    cursor: pointer;
+}
