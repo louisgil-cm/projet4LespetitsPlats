@@ -2,18 +2,15 @@
 async function recipes() {
     const response = await fetch("recipes.json")
     const recipes = await response.json()
-
     displayIngredients(recipes)
     displayAppareils(recipes)
     displayUstensiles(recipes)
     displayArtcleRecipes(recipes)
     recherchePrincipale(recipes)
-   
 }
 // variable des elements filtres
 const sectionFiltering = document.getElementById("sectionFiltering")
 const filteringDiv = document.getElementById("filtering")
-
 // Fonction pour afficher le contenu d'une recette ou l'article recette 
 function displayArtcleRecipes(recipes) {
     const afficheArticleRecette = document.getElementById("sectionArticle")
@@ -74,38 +71,45 @@ function displayArtcleRecipes(recipes) {
     afficheArticleRecette.appendChild( artileRecipes)
     })
 }
-
 // FONCTION POUR FILTRER LES RECETTES SELON QUE L'UTILISATEUR ENTRE SUR LE CHAMPS DE RECHERCHE LES VALEURS DES PROPRIETES: "name, description, ingredients
-function recherchePrincipale(recipes){
-    // récupération de l'input de recherche
+function recherchePrincipale(recipes) {
+    // Récupération de l'input de recherche
     const inputSearch = document.getElementById("inputSearch")
-    // ajout d'un événement sur l'input de recherche pour observer le mot que l'utilisateur va saisir
+    // Ajout d'un événement sur l'input de recherche
     inputSearch.addEventListener("input", () => {
-        // récupération de la section qui permet initialement d'afficher les articles recettes
+        // Récupération de la section où sont affichés les articles de recettes
         const afficheArticleRecette = document.getElementById("sectionArticle")
+        // Récupération de la valeur saisie par l'utilisateur
+        const inputUser = inputSearch.value.toLowerCase();
+        // Si moins de 3 caractères sont saisis, toutes les recettes  sont réaffichées  et la recherche est arretée
+        if (inputUser.length < 3) {
+            afficheArticleRecette.innerHTML = ""
+            displayArtcleRecipes(recipes)
+            return
+        }
         // la zone d'affichage des recettes est à zéro avant le filtre fonction du titre, des ingrédients et de la description
         afficheArticleRecette.innerHTML = ""
-        // récupération de la valeur saisie par l'utilisateur
-        const inputUser = inputSearch.value.toLowerCase()
         // Filtrage des recettes en fonction de la saisie
         const filtreRecipes = recipes.filter(recipe => {
             // Vérification dans le nom
             const writeName = recipe.name.toLowerCase().includes(inputUser)
-            // Vérification dans la description
+             // Vérification dans la description
             const writeDescription = recipe.description.toLowerCase().includes(inputUser)
             // Vérification dans les ingrédients
-            const writeIngredients = recipe.ingredients.some(ingredient => 
+            const writeIngredients = recipe.ingredients.some(ingredient =>
                 ingredient.ingredient.toLowerCase().includes(inputUser)
-            );
+            )
             return writeName || writeDescription || writeIngredients
-        });
-        // Affichage des recettes filtrées
-        displayArtcleRecipes(filtreRecipes)
+        })
+        // Si aucune recette ne correspond, le message: "Aucune recette ne correspond à votre recherche" est retouné
+        if (filtreRecipes.length === 0) {
+            afficheArticleRecette.innerHTML = "<p>Aucune recette ne correspond à votre recherche.</p>"
+        } else {
+            // Sinon, on affiche les recettes filtrées
+            displayArtcleRecipes(filtreRecipes)
+        }
     })
 }
-
-
-
 // INTEGRATION DES DROPDOWN
     // FONCTION POUR AFFICHER LA DROPDOWN INGREDIENTS
     function displayIngredients(recipes) {
