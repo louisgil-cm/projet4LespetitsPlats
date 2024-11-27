@@ -3,10 +3,12 @@ async function recipes() {
     const response = await fetch("recipes.json")
     const recipes = await response.json()
 
-    displayArtcleRecipes(recipes)
     displayIngredients(recipes)
     displayAppareils(recipes)
     displayUstensiles(recipes)
+    displayArtcleRecipes(recipes)
+    recherchePrincipale(recipes)
+   
 }
 // variable des elements filtres
 const sectionFiltering = document.getElementById("sectionFiltering")
@@ -14,7 +16,7 @@ const filteringDiv = document.getElementById("filtering")
 
 // Fonction pour afficher le contenu d'une recette ou l'article recette 
 function displayArtcleRecipes(recipes) {
-    const sectionArticle = document.getElementById("sectionArticle")
+    const afficheArticleRecette = document.getElementById("sectionArticle")
     recipes.forEach(recipe => {
     const artileRecipes = document.createElement("div")
     artileRecipes.className = "artileRecipes"
@@ -69,9 +71,40 @@ function displayArtcleRecipes(recipes) {
     artileRecipes.appendChild(emptyRow)
     artileRecipes.appendChild(fullRow)
 
-    sectionArticle.appendChild( artileRecipes)
+    afficheArticleRecette.appendChild( artileRecipes)
     })
 }
+
+// FONCTION POUR FILTRER LES RECETTES SELON QUE L'UTILISATEUR ENTRE SUR LE CHAMPS DE RECHERCHE LES VALEURS DES PROPRIETES: "name, description, ingredients
+function recherchePrincipale(recipes){
+    // récupération de l'input de recherche
+    const inputSearch = document.getElementById("inputSearch")
+    // ajout d'un événement sur l'input de recherche pour observer le mot que l'utilisateur va saisir
+    inputSearch.addEventListener("input", () => {
+        // récupération de la section qui permet initialement d'afficher les articles recettes
+        const afficheArticleRecette = document.getElementById("sectionArticle")
+        // la zone d'affichage des recettes est à zéro avant le filtre fonction du titre, des ingrédients et de la description
+        afficheArticleRecette.innerHTML = ""
+        // récupération de la valeur saisie par l'utilisateur
+        const inputUser = inputSearch.value.toLowerCase()
+        // Filtrage des recettes en fonction de la saisie
+        const filtreRecipes = recipes.filter(recipe => {
+            // Vérification dans le nom
+            const writeName = recipe.name.toLowerCase().includes(inputUser)
+            // Vérification dans la description
+            const writeDescription = recipe.description.toLowerCase().includes(inputUser)
+            // Vérification dans les ingrédients
+            const writeIngredients = recipe.ingredients.some(ingredient => 
+                ingredient.ingredient.toLowerCase().includes(inputUser)
+            );
+            return writeName || writeDescription || writeIngredients
+        });
+        // Affichage des recettes filtrées
+        displayArtcleRecipes(filtreRecipes)
+    })
+}
+
+
 
 // INTEGRATION DES DROPDOWN
     // FONCTION POUR AFFICHER LA DROPDOWN INGREDIENTS
@@ -113,6 +146,7 @@ function displayArtcleRecipes(recipes) {
         // Gestion des interactions du dropdown
         document.addEventListener('click', function (event) {
             const dropdowns = document.querySelectorAll('.dropdownIngredients')
+            const OnDropdownDivIngredients = document.querySelector(".OnDropdownDivIngredients")
         
             dropdowns.forEach(dropdown => {
                 const chevronDown = dropdown.querySelector('.fa-chevron-down')
@@ -126,6 +160,7 @@ function displayArtcleRecipes(recipes) {
                     dropdownItem.style.display = 'block'
                     chevronUp.style.display = 'inline'
                     dropdown.style.width = "60%"
+                    OnDropdownDivIngredients.style.display = "none"
                 }
         
                 // Fermeture du dropdown
@@ -134,6 +169,7 @@ function displayArtcleRecipes(recipes) {
                     chevronDown.style.display = 'inline'
                     chevronUp.style.display = 'none'
                     dropdown.style.width = "initial"
+                    OnDropdownDivIngredients.style.display = "block"
                 }
         
                 // Fermeture si on clique ailleurs
@@ -142,6 +178,7 @@ function displayArtcleRecipes(recipes) {
                     chevronDown.style.display = 'inline'
                     chevronUp.style.display = 'none'
                     dropdown.style.width = "initial"
+                    OnDropdownDivIngredients.style.display = "block"
                 }
         
                 // Recherche dans la liste
@@ -162,8 +199,6 @@ function displayArtcleRecipes(recipes) {
             });
         });
     }
-    
-    
      // FONCTION POUR AFFICHER LA DROPDOWN APPAREILS
      function displayAppareils(recipes) {
         // Extraction des appareils uniques
@@ -252,7 +287,6 @@ function displayArtcleRecipes(recipes) {
             });
         });
     }
-    
      // FONCTION POUR AFFICHER LA DROPDOWN USTENSILES
      function displayUstensiles(recipes) {
         // Extraction des ustensiles uniques
@@ -343,8 +377,5 @@ function displayArtcleRecipes(recipes) {
             })
         })
     }
-    
-    
-
 recipes()
 
