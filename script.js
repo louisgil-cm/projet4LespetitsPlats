@@ -98,11 +98,11 @@ const filteringDiv = document.getElementById("filtering")
                             } else {
                                 item.style.display = 'none'
                             }
-                        });
-                    });
+                        })
+                    })
                 }
-            });
-        });
+            })
+        })
     }
      // FONCTION POUR AFFICHER LA DROPDOWN APPAREILS
      function displayAppareils(recipes) {
@@ -362,7 +362,7 @@ function recherchePrincipale(recipes) {
         // Récupération de la valeur saisie par l'utilisateur
         const inputUser = inputSearch.value.toLowerCase();
         // Si moins de 3 caractères sont saisis, toutes les recettes  sont réaffichées  et la recherche est arretée
-        if (inputUser.length < 3) {
+        if (inputUser.length < 4) {
             afficheArticleRecette.innerHTML = ""
             displayArtcleRecipes(recipes)
             updateDropdowns(recipes)
@@ -388,34 +388,41 @@ function recherchePrincipale(recipes) {
         } else {
             // Sinon, on affiche les recettes filtrées
             displayArtcleRecipes(filtreRecipes)
-            updateDropdowns(filtreRecipes)
-
         }
+        updateDropdowns(filtreRecipes)
     })
 }
 // fonction pour filtrer les dropdown en fonction du filtre général ou principale
 function updateDropdowns(filtreRecipes) {
+    // Si aucune recette n'est trouvée, on vide les dropdowns
+    if (filtreRecipes.length === 0) {
+        updateDropdownList('Ingredients', [])
+        updateDropdownList('Appareils', [])
+        updateDropdownList('Ustensiles', [])
+        return 
+    }
+
     const ingredientsSet = new Set()
     const appliancesSet = new Set()
     const utensilsSet = new Set()
 
-   filtreRecipes.forEach(recipe => {
+    filtreRecipes.forEach(recipe => {
         recipe.ingredients.forEach(item => {
             ingredientsSet.add(item.ingredient)
-        })
+        });
         appliancesSet.add(recipe.appliance)
         recipe.ustensils.forEach(ustensil => {
             utensilsSet.add(ustensil)
-        })
-    })
+        });
+    });
 
-    //Appel de la fonction updateDropdownList pour mettre les listes à jour en fonction du filtre général ou principal
-
+    // Mise à jour des dropdowns avec les éléments filtrés
     updateDropdownList('Ingredients', Array.from(ingredientsSet))
     updateDropdownList('Appareils', Array.from(appliancesSet))
     updateDropdownList('Ustensiles', Array.from(utensilsSet))
 }
-// fonction pour mettre à jour les dropdown
+
+// fonction pour mettre à jour les listes des dropdowns
 function updateDropdownList(type, items) {
     const dropdownList = document.querySelector(`.dropdown${type} .dropdownList ul`)
     dropdownList.innerHTML = items.map(item => `<li>${item}</li>`).join('')
