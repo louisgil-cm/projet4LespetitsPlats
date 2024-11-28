@@ -11,6 +11,286 @@ async function recipes() {
 // variable des elements filtres
 const sectionFiltering = document.getElementById("sectionFiltering")
 const filteringDiv = document.getElementById("filtering")
+// INTEGRATION DES DROPDOWN
+    // FONCTION POUR AFFICHER LA DROPDOWN INGREDIENTS
+    function displayIngredients(recipes) {
+        const ingredientsSet = new Set()
+        recipes.forEach(recipe => {
+            recipe.ingredients.forEach(item => {
+                // Ajout de chaque ingrédient dans le Set
+                ingredientsSet.add(item.ingredient)
+            });
+        });
+        
+        // Conversion du Set en tableau
+        const ingredients = Array.from(ingredientsSet);
+        const ingredientsListHTML = ingredients.map(ingredient => `<li>${ingredient}</li>`).join('');
+        
+        filteringDiv.innerHTML += `
+        <div class="col-2 dropdownIngredients dropdown">
+            <div class="OnDropdownDivIngredients OnDropdownDiv">
+                <button class="bouttonDropdownIngredients bouttonDropdown">Ingredients</button>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="dropdownItem dropdownItemIngredients">
+                <div class="inputOffDrapdown">
+                    <input class="w-100 inputSearch" type="text" name="inputSearch" id="inputSearchIngredients" placeholder="Rechercher un ingredient">
+                    <i class="fa-solid fa-chevron-up"></i>
+                </div>
+                <div class="dropdownList">
+                    <ul>
+                        ${ingredientsListHTML}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        `;
+        
+        sectionFiltering.appendChild(filteringDiv);
+        
+        // Gestion des interactions du dropdown
+        document.addEventListener('click', function (event) {
+            const dropdowns = document.querySelectorAll('.dropdownIngredients')
+            const OnDropdownDivIngredients = document.querySelector(".OnDropdownDivIngredients")
+        
+            dropdowns.forEach(dropdown => {
+                const chevronDown = dropdown.querySelector('.fa-chevron-down')
+                const chevronUp = dropdown.querySelector('.fa-chevron-up')
+                const dropdownItem = dropdown.querySelector('.dropdownItem')
+                const inputSearch = dropdown.querySelector('#inputSearchIngredients')
+                const dropdownList = dropdown.querySelector('.dropdownList ul')
+        
+                // Ouverture du dropdown
+                if (chevronDown && chevronDown.contains(event.target)) {
+                    dropdownItem.style.display = 'block'
+                    chevronUp.style.display = 'inline'
+                    dropdown.style.width = "60%"
+                    OnDropdownDivIngredients.style.display = "none"
+                }
+        
+                // Fermeture du dropdown
+                if (chevronUp && chevronUp.contains(event.target)) {
+                    dropdownItem.style.display = 'none'
+                    chevronDown.style.display = 'inline'
+                    chevronUp.style.display = 'none'
+                    dropdown.style.width = "initial"
+                    OnDropdownDivIngredients.style.display = "block"
+                }
+        
+                // Fermeture si on clique ailleurs
+                if (!dropdown.contains(event.target) && !chevronDown.contains(event.target) && !chevronUp.contains(event.target)) {
+                    dropdownItem.style.display = 'none'
+                    chevronDown.style.display = 'inline'
+                    chevronUp.style.display = 'none'
+                    dropdown.style.width = "initial"
+                    OnDropdownDivIngredients.style.display = "block"
+                }
+
+                // Recherche dans la liste
+                if (inputSearch) {
+                    inputSearch.addEventListener('input', function () {
+                        const filter = inputSearch.value.toLowerCase()
+                        const listItems = dropdownList.querySelectorAll('li')
+        
+                        listItems.forEach(item => {
+                            if (item.textContent.toLowerCase().includes(filter)) {
+                                item.style.display = 'block'
+                            } else {
+                                item.style.display = 'none'
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    }
+     // FONCTION POUR AFFICHER LA DROPDOWN APPAREILS
+     function displayAppareils(recipes) {
+        // Extraction des appareils uniques
+        const appareilsSet = new Set()
+        recipes.forEach(recipe => {
+            appareilsSet.add(recipe.appliance)
+        })
+    
+        // Conversion en tableau pour générer la liste HTML
+        const appareils = Array.from(appareilsSet);
+        const appareilsListHTML = appareils.map(appliance => `<li>${appliance}</li>`).join('')
+    
+        // Génération du contenu complet pour le dropdown des appareils
+        filteringDiv.innerHTML += `
+        <div class="col-2 dropdownAppareils dropdown">
+            <div class="OnDropdownDivAppareils OnDropdownDiv">
+                <button class="bouttonDropdownAppareils bouttonDropdown">Appareils</button>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="dropdownItem dropdownItemAppareils">
+                <div class="inputOffDrapdown">
+                    <input class= "w-100 inputSearch" type="text" name="inputSearch" id="inputSearchAppareils" placeholder="Rechercher un appareil">
+                    <i class="fa-solid fa-chevron-up"></i>
+                </div>
+                <div class="dropdownList">
+                    <ul>
+                        ${appareilsListHTML}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        `
+    
+        // Ajout du contenu à la section des filtres
+        sectionFiltering.appendChild(filteringDiv);
+    
+        // Gestion des interactions du dropdown
+        document.addEventListener('click', function (event) {
+            const dropdowns = document.querySelectorAll('.dropdownAppareils')
+            const OnDropdownDivAppareils = document.querySelector(".OnDropdownDivAppareils")
+    
+            dropdowns.forEach(dropdown => {
+                const chevronDown = dropdown.querySelector('.fa-chevron-down')
+                const chevronUp = dropdown.querySelector('.fa-chevron-up')
+                const dropdownItem = dropdown.querySelector('.dropdownItem')
+                const inputSearch = dropdown.querySelector('#inputSearchAppareils')
+                const dropdownList = dropdown.querySelector('.dropdownList ul')
+    
+                // Ouverture du dropdown
+                if (chevronDown && chevronDown.contains(event.target)) {
+                    dropdownItem.style.display = 'block'
+                    chevronUp.style.display = 'inline'
+                     dropdown.style.width = "40%"
+                     OnDropdownDivAppareils.style.display = "none"
+                }
+    
+                // Fermeture du dropdown
+                if (chevronUp && chevronUp.contains(event.target)) {
+                    dropdownItem.style.display = 'none'
+                    chevronDown.style.display = 'inline'
+                    chevronUp.style.display = 'none'
+                    dropdown.style.width = "initial"
+                    OnDropdownDivAppareils.style.display = "block"
+                    
+                }
+    
+                // Fermeture si on clique ailleurs
+                if (!dropdown.contains(event.target) && !chevronDown.contains(event.target) && !chevronUp.contains(event.target)) {
+                    dropdownItem.style.display = 'none'
+                    chevronDown.style.display = 'inline'
+                    chevronUp.style.display = 'none'
+                    dropdown.style.width = "initial"
+                    OnDropdownDivAppareils.style.display = "block"
+                }
+    
+                // Recherche dans la liste
+                if (inputSearch) {
+                    inputSearch.addEventListener('input', function () {
+                        const filter = inputSearch.value.toLowerCase()
+                        const listItems = dropdownList.querySelectorAll('li')
+    
+                        listItems.forEach(item => {
+                            if (item.textContent.toLowerCase().includes(filter)) {
+                                item.style.display = 'block'
+                            } else {
+                                item.style.display = 'none'
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    }
+     // FONCTION POUR AFFICHER LA DROPDOWN USTENSILES
+     function displayUstensiles(recipes) {
+        // Extraction des ustensiles uniques
+        const ustensilesSet = new Set();
+        recipes.forEach(recipe => {
+            recipe.ustensils.forEach(ustensil => ustensilesSet.add(ustensil));
+        });
+        
+        // Conversion en tableau pour les utiliser dans la liste HTML
+        const ustensiles = Array.from(ustensilesSet);
+    
+        // Création des éléments <li> pour chaque ustensile
+        const ustensilesListHTML = ustensiles.map(ustensil => `<li>${ustensil}</li>`).join('');
+    
+        // Mise à jour du contenu HTML
+        filteringDiv.innerHTML += `
+        <div class="col-2 dropdownUstensiles dropdown">
+            <div class="OnDropdownDivUstensiles OnDropdownDiv">
+                <button class="bouttonDropdownUstensiles bouttonDropdown">Ustensiles</button>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="dropdownItem dropdownItemUstensiles">
+                <div class="inputOffDrapdown">
+                    <input class="w-100 inputSearch" type="text" name="inputSearch" id="inputSearchUstensiles" placeholder="Rechercher un ustensile">
+                    <i class="fa-solid fa-chevron-up"></i>
+                </div>
+                <div class="dropdownList">
+                    <ul>
+                        ${ustensilesListHTML}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        `
+    
+        // Ajout de la structure à la section des filtres
+        sectionFiltering.appendChild(filteringDiv);
+    
+        // Gestion des interactions du dropdown
+        document.addEventListener('click', function (event) {
+            const dropdowns = document.querySelectorAll('.dropdownUstensiles')
+            const OnDropdownDivUstensiles = document.querySelector(".OnDropdownDivUstensiles")
+            dropdowns.forEach(dropdown => {
+                const chevronDown = dropdown.querySelector('.fa-chevron-down')
+                const chevronUp = dropdown.querySelector('.fa-chevron-up')
+                const dropdownItem = dropdown.querySelector('.dropdownItem')
+                const inputSearch = dropdown.querySelector('#inputSearchUstensiles')
+                const dropdownList = dropdown.querySelector('.dropdownList ul')
+    
+                // Ouverture du dropdown
+                if (chevronDown && chevronDown.contains(event.target)) {
+                    dropdownItem.style.display = 'block'
+                    chevronUp.style.display = 'inline'
+                    dropdown.style.width = "40%"
+                    OnDropdownDivUstensiles.style.display = "none"
+                }
+    
+                // Fermeture du dropdown
+                if (chevronUp && chevronUp.contains(event.target)) {
+                    dropdownItem.style.display = 'none'
+                    chevronDown.style.display = 'inline'
+                    chevronUp.style.display = 'none'
+                    dropdown.style.width = "initial"
+                    OnDropdownDivUstensiles.style.display = "block"
+                }
+    
+                // Fermeture si on clique ailleurs
+                if (!dropdown.contains(event.target) && !chevronDown.contains(event.target) && !chevronUp.contains(event.target)) {
+                    dropdownItem.style.display = 'none'
+                    chevronDown.style.display = 'inline'
+                    chevronUp.style.display = 'none'
+                    dropdown.style.width = "initial"
+                    OnDropdownDivUstensiles.style.display = "block"
+                }
+    
+                // Recherche dans la liste
+                if (inputSearch) {
+                    inputSearch.addEventListener('input', function () {
+                        const filter = inputSearch.value.toLowerCase()
+                        const listItems = dropdownList.querySelectorAll('li')
+    
+                        listItems.forEach(item => {
+                            if (item.textContent.toLowerCase().includes(filter)) {
+                                item.style.display = 'block'
+                            } else {
+                                item.style.display = 'none'
+                            }
+                        })
+                    })
+                }
+            })
+        })
+    }
+
 // Fonction pour afficher le contenu d'une recette ou l'article recette 
 function displayArtcleRecipes(recipes) {
     const afficheArticleRecette = document.getElementById("sectionArticle")
@@ -85,6 +365,7 @@ function recherchePrincipale(recipes) {
         if (inputUser.length < 3) {
             afficheArticleRecette.innerHTML = ""
             displayArtcleRecipes(recipes)
+            updateDropdowns(recipes)
             return
         }
         // la zone d'affichage des recettes est à zéro avant le filtre fonction du titre, des ingrédients et de la description
@@ -107,279 +388,37 @@ function recherchePrincipale(recipes) {
         } else {
             // Sinon, on affiche les recettes filtrées
             displayArtcleRecipes(filtreRecipes)
+            updateDropdowns(filtreRecipes)
+
         }
     })
 }
-// INTEGRATION DES DROPDOWN
-    // FONCTION POUR AFFICHER LA DROPDOWN INGREDIENTS
-    function displayIngredients(recipes) {
-        const ingredientsSet = new Set()
-        recipes.forEach(recipe => {
-            recipe.ingredients.forEach(item => {
-                // Ajout de chaque ingrédient dans le Set
-                ingredientsSet.add(item.ingredient)
-            });
-        });
-        
-        // Conversion du Set en tableau
-        const ingredients = Array.from(ingredientsSet);
-        const ingredientsListHTML = ingredients.map(ingredient => `<li>${ingredient}</li>`).join('');
-        
-        filteringDiv.innerHTML += `
-        <div class="col-2 dropdownIngredients dropdown">
-            <div class="OnDropdownDivIngredients OnDropdownDiv">
-                <button class="bouttonDropdownIngredients bouttonDropdown">Ingredients</button>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="dropdownItem dropdownItemIngredients">
-                <div class="inputOffDrapdown">
-                    <input class="w-100 inputSearch" type="search" name="inputSearch" id="inputSearchIngredients" placeholder="Rechercher un ingredient">
-                    <i class="fa-solid fa-chevron-up"></i>
-                </div>
-                <div class="dropdownList">
-                    <ul>
-                        ${ingredientsListHTML}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        `;
-        
-        sectionFiltering.appendChild(filteringDiv);
-        
-        // Gestion des interactions du dropdown
-        document.addEventListener('click', function (event) {
-            const dropdowns = document.querySelectorAll('.dropdownIngredients')
-            const OnDropdownDivIngredients = document.querySelector(".OnDropdownDivIngredients")
-        
-            dropdowns.forEach(dropdown => {
-                const chevronDown = dropdown.querySelector('.fa-chevron-down')
-                const chevronUp = dropdown.querySelector('.fa-chevron-up')
-                const dropdownItem = dropdown.querySelector('.dropdownItem')
-                const inputSearch = dropdown.querySelector('#inputSearchIngredients')
-                const dropdownList = dropdown.querySelector('.dropdownList ul')
-        
-                // Ouverture du dropdown
-                if (chevronDown && chevronDown.contains(event.target)) {
-                    dropdownItem.style.display = 'block'
-                    chevronUp.style.display = 'inline'
-                    dropdown.style.width = "60%"
-                    OnDropdownDivIngredients.style.display = "none"
-                }
-        
-                // Fermeture du dropdown
-                if (chevronUp && chevronUp.contains(event.target)) {
-                    dropdownItem.style.display = 'none'
-                    chevronDown.style.display = 'inline'
-                    chevronUp.style.display = 'none'
-                    dropdown.style.width = "initial"
-                    OnDropdownDivIngredients.style.display = "block"
-                }
-        
-                // Fermeture si on clique ailleurs
-                if (!dropdown.contains(event.target) && !chevronDown.contains(event.target) && !chevronUp.contains(event.target)) {
-                    dropdownItem.style.display = 'none'
-                    chevronDown.style.display = 'inline'
-                    chevronUp.style.display = 'none'
-                    dropdown.style.width = "initial"
-                    OnDropdownDivIngredients.style.display = "block"
-                }
-        
-                // Recherche dans la liste
-                if (inputSearch) {
-                    inputSearch.addEventListener('input', function () {
-                        const filter = inputSearch.value.toLowerCase()
-                        const listItems = dropdownList.querySelectorAll('li')
-        
-                        listItems.forEach(item => {
-                            if (item.textContent.toLowerCase().includes(filter)) {
-                                item.style.display = 'block'
-                            } else {
-                                item.style.display = 'none'
-                            }
-                        });
-                    });
-                }
-            });
-        });
-    }
-     // FONCTION POUR AFFICHER LA DROPDOWN APPAREILS
-     function displayAppareils(recipes) {
-        // Extraction des appareils uniques
-        const appareilsSet = new Set();
-        recipes.forEach(recipe => {
-            appareilsSet.add(recipe.appliance);
-        });
-    
-        // Conversion en tableau pour générer la liste HTML
-        const appareils = Array.from(appareilsSet);
-        const appareilsListHTML = appareils.map(appliance => `<li>${appliance}</li>`).join('')
-    
-        // Génération du contenu complet pour le dropdown des appareils
-        filteringDiv.innerHTML += `
-        <div class="col-2 dropdownAppareils dropdown">
-            <div class="OnDropdownDivAppareils OnDropdownDiv">
-                <button class="bouttonDropdownAppareils bouttonDropdown">Appareils</button>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="dropdownItem dropdownItemAppareils">
-                <div class="inputOffDrapdown">
-                    <input class= "w-100 inputSearch" type="search" name="inputSearch" id="inputSearchAppareils" placeholder="Rechercher un appareil">
-                    <i class="fa-solid fa-chevron-up"></i>
-                </div>
-                <div class="dropdownList">
-                    <ul>
-                        ${appareilsListHTML}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        `;
-    
-        // Ajout du contenu à la section des filtres
-        sectionFiltering.appendChild(filteringDiv);
-    
-        // Gestion des interactions du dropdown
-        document.addEventListener('click', function (event) {
-            const dropdowns = document.querySelectorAll('.dropdownAppareils')
-    
-            dropdowns.forEach(dropdown => {
-                const chevronDown = dropdown.querySelector('.fa-chevron-down')
-                const chevronUp = dropdown.querySelector('.fa-chevron-up')
-                const dropdownItem = dropdown.querySelector('.dropdownItem')
-                const inputSearch = dropdown.querySelector('#inputSearchAppareils')
-                const dropdownList = dropdown.querySelector('.dropdownList ul')
-    
-                // Ouverture du dropdown
-                if (chevronDown && chevronDown.contains(event.target)) {
-                    dropdownItem.style.display = 'block'
-                    chevronUp.style.display = 'inline'
-                     dropdown.style.width = "40%"
-                }
-    
-                // Fermeture du dropdown
-                if (chevronUp && chevronUp.contains(event.target)) {
-                    dropdownItem.style.display = 'none'
-                    chevronDown.style.display = 'inline'
-                    chevronUp.style.display = 'none'
-                    dropdown.style.width = "initial"
-                }
-    
-                // Fermeture si on clique ailleurs
-                if (!dropdown.contains(event.target) && !chevronDown.contains(event.target) && !chevronUp.contains(event.target)) {
-                    dropdownItem.style.display = 'none';
-                    chevronDown.style.display = 'inline';
-                    chevronUp.style.display = 'none';
-                    dropdown.style.width = "initial"
-                }
-    
-                // Recherche dans la liste
-                if (inputSearch) {
-                    inputSearch.addEventListener('input', function () {
-                        const filter = inputSearch.value.toLowerCase();
-                        const listItems = dropdownList.querySelectorAll('li');
-    
-                        listItems.forEach(item => {
-                            if (item.textContent.toLowerCase().includes(filter)) {
-                                item.style.display = 'block';
-                            } else {
-                                item.style.display = 'none';
-                            }
-                        });
-                    });
-                }
-            });
-        });
-    }
-     // FONCTION POUR AFFICHER LA DROPDOWN USTENSILES
-     function displayUstensiles(recipes) {
-        // Extraction des ustensiles uniques
-        const ustensilesSet = new Set();
-        recipes.forEach(recipe => {
-            recipe.ustensils.forEach(ustensil => ustensilesSet.add(ustensil));
-        });
-    
-        // Conversion en tableau pour les utiliser dans la liste HTML
-        const ustensiles = Array.from(ustensilesSet);
-    
-        // Création des éléments <li> pour chaque ustensile
-        const ustensilesListHTML = ustensiles.map(ustensil => `<li>${ustensil}</li>`).join('');
-    
-        // Mise à jour du contenu HTML
-        filteringDiv.innerHTML += `
-        <div class="col-2 dropdownUstensiles dropdown">
-            <div class="OnDropdownDivUstensiles OnDropdownDiv">
-                <button class="bouttonDropdownUstensiles bouttonDropdown">Ustensiles</button>
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="dropdownItem dropdownItemUstensiles">
-                <div class="inputOffDrapdown">
-                    <input class="w-100 inputSearch" type="search" name="inputSearch" id="inputSearchUstensiles" placeholder="Rechercher un ustensile">
-                    <i class="fa-solid fa-chevron-up"></i>
-                </div>
-                <div class="dropdownList">
-                    <ul>
-                        ${ustensilesListHTML}
-                    </ul>
-                </div>
-            </div>
-        </div>
-        `;
-    
-        // Ajout de la structure à la section des filtres
-        sectionFiltering.appendChild(filteringDiv);
-    
-        // Gestion des interactions du dropdown
-        document.addEventListener('click', function (event) {
-            const dropdowns = document.querySelectorAll('.dropdownUstensiles')
-    
-            dropdowns.forEach(dropdown => {
-                const chevronDown = dropdown.querySelector('.fa-chevron-down')
-                const chevronUp = dropdown.querySelector('.fa-chevron-up')
-                const dropdownItem = dropdown.querySelector('.dropdownItem')
-                const inputSearch = dropdown.querySelector('#inputSearchUstensiles')
-                const dropdownList = dropdown.querySelector('.dropdownList ul')
-    
-                // Ouverture du dropdown
-                if (chevronDown && chevronDown.contains(event.target)) {
-                    dropdownItem.style.display = 'block'
-                    chevronUp.style.display = 'inline'
-                    dropdown.style.width = "40%"
-                }
-    
-                // Fermeture du dropdown
-                if (chevronUp && chevronUp.contains(event.target)) {
-                    dropdownItem.style.display = 'none'
-                    chevronDown.style.display = 'inline'
-                    chevronUp.style.display = 'none'
-                    dropdown.style.width = "initial"
-                }
-    
-                // Fermeture si on clique ailleurs
-                if (!dropdown.contains(event.target) && !chevronDown.contains(event.target) && !chevronUp.contains(event.target)) {
-                    dropdownItem.style.display = 'none'
-                    chevronDown.style.display = 'inline'
-                    chevronUp.style.display = 'none'
-                    dropdown.style.width = "initial"
-                }
-    
-                // Recherche dans la liste
-                if (inputSearch) {
-                    inputSearch.addEventListener('input', function () {
-                        const filter = inputSearch.value.toLowerCase()
-                        const listItems = dropdownList.querySelectorAll('li')
-    
-                        listItems.forEach(item => {
-                            if (item.textContent.toLowerCase().includes(filter)) {
-                                item.style.display = 'block'
-                            } else {
-                                item.style.display = 'none'
-                            }
-                        })
-                    })
-                }
-            })
+// fonction pour filtrer les dropdown en fonction du filtre général ou principale
+function updateDropdowns(filtreRecipes) {
+    const ingredientsSet = new Set()
+    const appliancesSet = new Set()
+    const utensilsSet = new Set()
+
+   filtreRecipes.forEach(recipe => {
+        recipe.ingredients.forEach(item => {
+            ingredientsSet.add(item.ingredient)
         })
-    }
+        appliancesSet.add(recipe.appliance)
+        recipe.ustensils.forEach(ustensil => {
+            utensilsSet.add(ustensil)
+        })
+    })
+
+    //Appel de la fonction updateDropdownList pour mettre les listes à jour en fonction du filtre général ou principal
+
+    updateDropdownList('Ingredients', Array.from(ingredientsSet))
+    updateDropdownList('Appareils', Array.from(appliancesSet))
+    updateDropdownList('Ustensiles', Array.from(utensilsSet))
+}
+// fonction pour mettre à jour les dropdown
+function updateDropdownList(type, items) {
+    const dropdownList = document.querySelector(`.dropdown${type} .dropdownList ul`)
+    dropdownList.innerHTML = items.map(item => `<li>${item}</li>`).join('')
+}
 recipes()
 
