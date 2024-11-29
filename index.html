@@ -13,8 +13,6 @@
   <!-- inclusion de la famille de police -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Lato&amp;display=swap" rel="stylesheet">
-
-
 </head>
 <!-- <body> section header -->
   <header class="container">
@@ -26,7 +24,12 @@
       <input class="w-100" type="text" name="search" id="inputSearch" placeholder="Rechercher une recette">
       <i class="fa-solid fa-magnifying-glass"></i>
     </section>
-    <!-- section filtre et delete des elements retounés -->
+    <!-- delete des elements retounés -->
+    <section class="tagsDropdown" id="tagsDropdown">
+      <div class="row rowTags" id="rowTags">
+      </div>
+    </section>
+    <!-- section filtre -->
     <section class="sectionFiltering" id="sectionFiltering">
       <!-- ligne des filtres -->
       <div class="row filtering" id="filtering">
@@ -37,6 +40,7 @@
     </section>
   </main>
   <!-- inclusion du javaScript -->
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
+  <script src="scriptLogin.js"></script>
 </body>
 </html>

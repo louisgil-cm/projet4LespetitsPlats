@@ -178,3 +178,11 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
 .fa-solid{
     cursor: pointer;
 }
+
+/* .classListIngredients{
+    color: red;
+} */
+.rowTags{
+    background-color: red;
+}
+
