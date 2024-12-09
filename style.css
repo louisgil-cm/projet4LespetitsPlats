@@ -96,93 +96,93 @@ ul{
 }
 
 /* STYLE POUR LES DROPDOW */
+.tagsDropdown{
+    margin-top: 25px;
+}
 
-.filtering{
+.rowDropdown{
     margin: 30px 0px 20px 0px;
 }
+/* STYLE POUR LES TAGS */
 
-.OnDropdownDiv{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    padding: 10px;
-    gap: 10px;
-    border: 1px solid white;
+
+/* style sur les dropdowns */
+.dropdownBody{
+    display: none;
+    border: 1px solid transparent;
     border-radius: 7px;
+    padding-bottom: 20px;
 }
-.OnDropdownDiv .bouttonDropdown{
-    font-size: 25px;
-}
-.OnDropdownDiv i{
-    font-size: 18px;
-}
-.bouttonDropdown{
-    border: none;
-    color: white;
-
-
-}
-
-.OnDropdownDivIngredients, .bouttonDropdownIngredients, .dropdownItemIngredients, #inputSearchIngredients{
-background-color: #3282f7;
-}
-
-.OnDropdownDivAppareils, .bouttonDropdownAppareils , .dropdownItemAppareils, #inputSearchAppareils{
-    background-color: #68d9a4;
-}
-.OnDropdownDivUstensiles, .bouttonDropdownUstensiles, .dropdownItemUstensiles, #inputSearchUstensiles{
-    background-color: #ed6454; 
-}
-
-
-.dropdownItem{
-color: white;
-padding: 10px;
-border: 1px solid none;
-border-radius: 7px;
-}
-
-.inputOffDrapdown{
+.dropdownHeader{
+    border: transparent 1px solid;
+    border-radius: 7px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
 }
-
-.dropdownItem{
-    position: absolute;
-    top: 2%;
+button{
+    color: white;
+    border: none;
 }
-
-.dropdownList{
-    column-count: 3;
+.dropdownSearch{
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-
-.inputSearch{
-padding: 10px;
-margin: 0px 0px 10px 0px;
-outline: none;
-border: none;
-color: white;
+.dropdownSearch input{
+    border: none;
+    outline: none;
+    color: white;
 }
-
-
+.fa-chevron-up{
+    color: white;
+}
 /* Style du texte du placeholder */
-input[placeholder="Rechercher un ingredient"]::placeholder,
+input[placeholder="Rechercher un ingrédient"]::placeholder,
 input[placeholder="Rechercher un appareil"]::placeholder,
 input[placeholder="Rechercher un ustensile"]::placeholder{
     color: #f0eaea;
-    font-weight: 100;
+    font-weight: 30;
+}
+.dropdownBody{
+    width: 700px;
+    position: absolute;
+    top: 1%;
+    z-index: 10;
+}
+.dropdownList{
+    column-count: 3;
+}
+.classList{
+    color: white;
+    cursor: pointer;
+}
+.classList:hover {
+    background-color: #6a0505;
 }
 
 .fa-solid{
     cursor: pointer;
 }
 
-/* .classListIngredients{
-    color: red;
-} */
-.rowTags{
-    background-color: red;
+.colTags{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
 }
-
+.tag {
+    display: flex;
+    gap: 7px;
+    width: fit-content;
+    height: 40px;
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    color: white;
+}
+.fa-regular{
+    color: white;
+}
