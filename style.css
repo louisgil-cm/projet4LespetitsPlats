@@ -100,7 +100,7 @@ ul{
 }
 
 .rowDropdown{
-.rowDropdown{
+
     margin: 30px 0px 20px 0px;
 }
 /* STYLE POUR LES TAGS */
@@ -117,6 +117,7 @@ ul{
     border: transparent 1px solid;
     border-radius: 7px;
     padding: 10px;
+}
 /* STYLE POUR LES TAGS */
 
 
