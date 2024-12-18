@@ -95,10 +95,28 @@ ul{
 .tagsDropdown{
     margin-top: 25px;
 }
+.tagsDropdown{
+    margin-top: 25px;
+}
 
+.rowDropdown{
 .rowDropdown{
     margin: 30px 0px 20px 0px;
 }
+/* STYLE POUR LES TAGS */
+
+
+/* style sur les dropdowns */
+.dropdownBody{
+    display: none;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    padding-bottom: 20px;
+}
+.dropdownHeader{
+    border: transparent 1px solid;
+    border-radius: 7px;
+    padding: 10px;
 /* STYLE POUR LES TAGS */
 
 
@@ -120,11 +138,18 @@ ul{
 }
 button{
     color: white;
+}
+button{
+    color: white;
     border: none;
 }
 .dropdownSearch{
     padding: 30px;
+}
+.dropdownSearch{
+    padding: 30px;
     display: flex;
+    justify-content: space-between;
     justify-content: space-between;
     align-items: center;
 }
@@ -136,11 +161,37 @@ button{
 .fa-chevron-up{
     color: white;
 }
+.dropdownSearch input{
+    border: none;
+    outline: none;
+    color: white;
+}
+.fa-chevron-up{
+    color: white;
+}
 /* Style du texte du placeholder */
+input[placeholder="Rechercher un ingrédient"]::placeholder,
 input[placeholder="Rechercher un ingrédient"]::placeholder,
 input[placeholder="Rechercher un appareil"]::placeholder,
 input[placeholder="Rechercher un ustensile"]::placeholder{
     color: #f0eaea;
+    font-weight: 30;
+}
+.dropdownBody{
+    width: 700px;
+    position: absolute;
+    top: 1%;
+    z-index: 10;
+}
+.dropdownList{
+    column-count: 3;
+}
+.classList{
+    color: white;
+    cursor: pointer;
+}
+.classList:hover {
+    background-color: #6a0505;
     font-weight: 30;
 }
 .dropdownBody{
