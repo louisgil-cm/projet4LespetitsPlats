@@ -145,17 +145,17 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         tag.querySelector(".closeBtn").addEventListener("click", function () {
             colTags.removeChild(tag)
             selectedTags = selectedTags.filter(t=>t !== itemSelect)
-            // updateRecetteByTag()
+            updateRecetteByTag()
         })
         selectedTags.push(itemSelect)
-        // updateRecetteByTag()
+        updateRecetteByTag()
     }
         
     // Fonction pour mettre à jour les recettes filtrées selon les tags
     function updateRecetteByTag() {
         const filteredRecipes = filterRecipesByTags(selectedTags, recettes)
         // Mis à jour des dropdowns selon les recettes filtrées
-        updateDropdowns(filteredRecipes)
+        // updateDropdowns(filteredRecipes)
         if (filteredRecipes.length === 0) {
             displayNoResultsMessage()
         } else {
