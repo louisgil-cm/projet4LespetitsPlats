@@ -87,7 +87,7 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         dropdownBody.style.display = 'block'
         chevronDown.style.display = 'none'
         chevronUp.style.display = 'inline'
-    });
+    })
 
     chevronUp.addEventListener('click', () => {
         dropdownBody.style.display = 'none'
@@ -118,8 +118,10 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     colTags.className = "col-4 colTags"
     // Ajout d'un tag
     listItems.forEach(item => {
-        item.addEventListener("click", function () {
-            const itemSelect = this.textContent.trim()
+        console.log(item)
+        item.addEventListener("click", function (event) {
+            console.log(event)
+            const itemSelect = this.textContent
             if (!tagSelected(itemSelect)) {
                 addTag(itemSelect, color)
             }
@@ -127,25 +129,26 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     })
     // Fonction pour vérifier si un tag est déjà sélectionné
     function tagSelected(itemSelect) {
-        return selectedTags.includes(itemSelect)
+        const tags = colTags.querySelectorAll(".tag")
+        return Array.from(tags).some(tag => tag.textContent.replace("×", "").trim() === itemSelect)
     }
-    // Fonction pour ajouter un tag sélectionné
+    // Fonction pour ajouter un tag avec couleur
     function addTag(itemSelect, color) {
-        if (!tagSelected(itemSelect)) {
-            const tag = document.createElement("div")
-            tag.className = "tag"
-            tag.style.backgroundColor = color
-            tag.innerHTML = `${itemSelect} <span class="closeBtn"><i class="fa-regular fa-circle-xmark"></i></span>`
-            colTags.appendChild(tag)
-            tag.querySelector(".closeBtn").addEventListener("click", () => {
-                colTags.removeChild(tag)
-                selectedTags = selectedTags.filter(t => t !== itemSelect)
-                updateRecetteByTag()
-            })
-            selectedTags.push(itemSelect)
-            updateRecetteByTag()
-        }
+        // Création de l'élément tag
+        const tag = document.createElement("div")
+        tag.classList.add("tag")
+        tag.style.backgroundColor = color
+        tag.innerHTML = `${itemSelect} <span class="closeBtn"><i class="fa-regular fa-circle-xmark"></i></span>`
+        // Ajout du tag au conteneur
+        colTags.appendChild(tag)
+        // Ajout d'un écouteur pour la suppression du tag
+        tag.querySelector(".closeBtn").addEventListener("click", function () {
+            colTags.removeChild(tag)
+        })
+        selectedTags.push(itemSelect)
+        updateRecetteByTag()
     }
+        
     // Fonction pour mettre à jour les recettes filtrées selon les tags
     function updateRecetteByTag() {
         const filteredRecipes = filterRecipesByTags(selectedTags, recettes)
