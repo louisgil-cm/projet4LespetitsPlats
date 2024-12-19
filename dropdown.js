@@ -171,7 +171,7 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     function updateRecetteByTag() {
         const filteredRecipes = filterRecipesByTags(selectedTags, recettes)
         // Mis à jour des dropdowns selon les recettes filtrées
-        updateDropdowns(filteredRecipes)
+        // updateDropdowns(filteredRecipes)
         if (filteredRecipes.length === 0) {
             displayNoResultsMessage()
         } else {
