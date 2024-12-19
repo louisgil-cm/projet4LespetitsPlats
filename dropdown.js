@@ -144,9 +144,11 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         // Ajout d'un écouteur pour la suppression du tag
         tag.querySelector(".closeBtn").addEventListener("click", function () {
             colTags.removeChild(tag)
+            selectedTags = selectedTags.filter(t=>t !== itemSelect)
+            // updateRecetteByTag()
         })
         selectedTags.push(itemSelect)
-        updateRecetteByTag()
+        // updateRecetteByTag()
     }
         
     // Fonction pour mettre à jour les recettes filtrées selon les tags
