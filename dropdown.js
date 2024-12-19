@@ -22,7 +22,10 @@ function displayDropdown({ title, placeholder, data, id, containerClass, inputCl
             </div>
         </div>
     `
-    document.getElementById("rowDropdown").appendChild(dropdownContainer)
+    const rowDropdown = document.getElementById("rowDropdown")
+    if(rowDropdown){
+        rowDropdown.appendChild(dropdownContainer)
+    }
     dropdownInteractions(id, dropdownHeaderId, color)
 }
 
@@ -72,6 +75,7 @@ function displayDropdowns(recipes) {
     })
 }
 
+let selectedTags = []
 // Fonction pour configurer les interactions sur un dropdown
 function dropdownInteractions(id, dropdownHeaderId, color) {
     const dropdown = document.querySelector(`.dropdown.${id}`)
@@ -87,7 +91,7 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         dropdownBody.style.display = 'block'
         chevronDown.style.display = 'none'
         chevronUp.style.display = 'inline'
-    });
+    })
 
     chevronUp.addEventListener('click', () => {
         dropdownBody.style.display = 'none'
@@ -112,14 +116,15 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         })
     })
     // Gestion des tags sélectionnés
-    let selectedTags = []
     const rowTags = document.getElementById("rowTags")
     const colTags = document.createElement("div")
     colTags.className = "col-4 colTags"
     // Ajout d'un tag
     listItems.forEach(item => {
-        item.addEventListener("click", function () {
-            const itemSelect = this.textContent.trim()
+        // console.log(item)
+        item.addEventListener("click", function (event) {
+            console.log(event)
+            const itemSelect = this.textContent
             if (!tagSelected(itemSelect)) {
                 addTag(itemSelect, color)
             }
@@ -127,25 +132,41 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     })
     // Fonction pour vérifier si un tag est déjà sélectionné
     function tagSelected(itemSelect) {
+        const tags = colTags.querySelectorAll(".tag")
         return selectedTags.includes(itemSelect)
     }
-    // Fonction pour ajouter un tag sélectionné
+    // Fonction pour ajouter un tag avec couleur
     function addTag(itemSelect, color) {
-        if (!tagSelected(itemSelect)) {
-            const tag = document.createElement("div")
-            tag.className = "tag"
-            tag.style.backgroundColor = color
-            tag.innerHTML = `${itemSelect} <span class="closeBtn"><i class="fa-regular fa-circle-xmark"></i></span>`
-            colTags.appendChild(tag)
-            tag.querySelector(".closeBtn").addEventListener("click", () => {
-                colTags.removeChild(tag)
-                selectedTags = selectedTags.filter(t => t !== itemSelect)
-                updateRecetteByTag()
-            })
-            selectedTags.push(itemSelect)
-            updateRecetteByTag()
+        if(selectedTags.length > 0) {
+            console.log(selectedTags);
+            const indexFind = selectedTags.find(i => i === itemSelect);
+            console.log(indexFind);
+            if(!indexFind) {
+                selectedTags.push(itemSelect);
+            }
+            console.log(selectedTags);
+        }else if(selectedTags.length == 0){
+            selectedTags.push(itemSelect);
         }
+        // Création de l'élément tag
+        const tag = document.createElement("div")
+        tag.classList.add("tag")
+        tag.style.backgroundColor = color
+        tag.innerHTML = `${itemSelect} <span class="closeBtn"><i class="fa-regular fa-circle-xmark"></i></span>`
+        // Ajout du tag au conteneur
+        colTags.appendChild(tag)
+        // Ajout d'un écouteur pour la suppression du tag
+        tag.querySelector(".closeBtn").addEventListener("click", function () {
+            colTags.removeChild(tag)
+            const selectedTagsTmp = [];
+            console.log(selectedTags);
+            // selectedTags = selectedTags.filter(t => t !== itemSelect)
+            updateRecetteByTag()
+        })
+        // selectedTags.push(itemSelect)
+        updateRecetteByTag()
     }
+        
     // Fonction pour mettre à jour les recettes filtrées selon les tags
     function updateRecetteByTag() {
         const filteredRecipes = filterRecipesByTags(selectedTags, recettes)
@@ -159,7 +180,10 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     }
     // Fonction pour filtrer les recettes selon les tags sélectionnés
     function filterRecipesByTags(selectedTags, recettes) {
-        return recettes.filter(recipe =>
+        console.log(selectedTags)
+        console.log(recettes)
+        
+        const resp = recettes.filter(recipe =>
             selectedTags.every(tag => {
                 const tagLower = tag.toLowerCase()
                 return (
@@ -169,6 +193,9 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
                 )
             })
         )
+        console.log(selectedTags)
+        console.log(resp)
+        return resp
     }
     // Fonction pour afficher un message lorsque aucune recette ne correspond aux tags sélectionnés
     function displayNoResultsMessage() {
