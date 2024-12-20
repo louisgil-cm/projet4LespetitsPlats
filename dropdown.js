@@ -23,7 +23,15 @@ function displayDropdown({ title, placeholder, data, id, containerClass, inputCl
         </div>
     `
     const rowDropdown = document.getElementById("rowDropdown")
+<<<<<<< HEAD
     if (rowDropdown) {
+=======
+<<<<<<< HEAD
+    if (rowDropdown) {
+=======
+    if(rowDropdown){
+>>>>>>> b4c173aa0240abbff8782ef7bf827d02857e58e4
+>>>>>>> fd80b2ea2449ecc6bd84a9e00dc324374bcc922a
         rowDropdown.appendChild(dropdownContainer)
     }
     dropdownInteractions(id, dropdownHeaderId, color)
@@ -122,7 +130,16 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     // Ajout d'un tag
     listItems.forEach(item => {
         // console.log(item)
+<<<<<<< HEAD
         item.addEventListener("click", function () {
+=======
+<<<<<<< HEAD
+        item.addEventListener("click", function () {
+=======
+        item.addEventListener("click", function (event) {
+            console.log(event)
+>>>>>>> b4c173aa0240abbff8782ef7bf827d02857e58e4
+>>>>>>> fd80b2ea2449ecc6bd84a9e00dc324374bcc922a
             const itemSelect = this.textContent
             if (!tagSelected(itemSelect)) {
                 addTag(itemSelect, color)
@@ -131,10 +148,15 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     })
     // Fonction pour vérifier si un tag est déjà sélectionné
     function tagSelected(itemSelect) {
+        const tags = colTags.querySelectorAll(".tag")
         return selectedTags.includes(itemSelect)
     }
     // Fonction pour ajouter un tag avec couleur
     function addTag(itemSelect, color) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> fd80b2ea2449ecc6bd84a9e00dc324374bcc922a
         if (selectedTags.length > 0) {
             console.log(selectedTags);
             const indexFind = selectedTags.find(i => i === itemSelect);
@@ -144,6 +166,20 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
             }
             console.log(selectedTags);
         } else if (selectedTags.length === 0) {
+<<<<<<< HEAD
+=======
+=======
+        if(selectedTags.length > 0) {
+            console.log(selectedTags);
+            const indexFind = selectedTags.find(i => i === itemSelect);
+            console.log(indexFind);
+            if(!indexFind) {
+                selectedTags.push(itemSelect);
+            }
+            console.log(selectedTags);
+        }else if(selectedTags.length == 0){
+>>>>>>> b4c173aa0240abbff8782ef7bf827d02857e58e4
+>>>>>>> fd80b2ea2449ecc6bd84a9e00dc324374bcc922a
             selectedTags.push(itemSelect);
         }
         // Création de l'élément tag
@@ -156,6 +192,10 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         // Ajout d'un écouteur pour la suppression du tag
         tag.querySelector(".closeBtn").addEventListener("click", function () {
             colTags.removeChild(tag)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> fd80b2ea2449ecc6bd84a9e00dc324374bcc922a
             console.log(selectedTags);
             selectedTags = selectedTags.filter(t => t !== itemSelect)
             updateRecetteByTag()
@@ -163,6 +203,7 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         updateRecetteByTag()
     }
 
+<<<<<<< HEAD
     // Fonction pour mettre à jour les recettes filtrées selon les tags
     function updateRecetteByTag() {
         const filteredRecipes = filterRecipes(recettes, selectedTags)
@@ -175,6 +216,40 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         // Si aucun tag n'est sélectionné, retourner toutes les recettes
         if (selectedTags.length === 0) {
             return recettes;
+=======
+    // Fonction pour mettre à jour les recettes filtrées selon les tags
+    function updateRecetteByTag() {
+        const filteredRecipes = filterRecipes(recettes, selectedTags)
+        updateDropdowns(filteredRecipes)
+        displayRecipes(filteredRecipes)
+    }
+
+    // Fonction pour filtrer les recettes en fonction des tags sélectionnés
+    function filterRecipes(recettes, selectedTags) {
+        // Si aucun tag n'est sélectionné, retourner toutes les recettes
+        if (selectedTags.length === 0) {
+            return recettes;
+=======
+            const selectedTagsTmp = [];
+            console.log(selectedTags);
+            // selectedTags = selectedTags.filter(t => t !== itemSelect)
+            updateRecetteByTag()
+        })
+        // selectedTags.push(itemSelect)
+        updateRecetteByTag()
+    }
+        
+    // Fonction pour mettre à jour les recettes filtrées selon les tags
+    function updateRecetteByTag() {
+        const filteredRecipes = filterRecipesByTags(selectedTags, recettes)
+        // Mis à jour des dropdowns selon les recettes filtrées
+        // updateDropdowns(filteredRecipes)
+        if (filteredRecipes.length === 0) {
+            displayNoResultsMessage()
+        } else {
+            displayRecipes(filteredRecipes)
+>>>>>>> b4c173aa0240abbff8782ef7bf827d02857e58e4
+>>>>>>> fd80b2ea2449ecc6bd84a9e00dc324374bcc922a
         }
 
         // Filtrer les recettes en fonction des tags sélectionnés
@@ -194,8 +269,39 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         });
         return ResponseFilterRecipes;
     }
+<<<<<<< HEAD
     
     
+=======
+<<<<<<< HEAD
+    
+    
+=======
+    // Fonction pour filtrer les recettes selon les tags sélectionnés
+    function filterRecipesByTags(selectedTags, recettes) {
+        console.log(selectedTags)
+        console.log(recettes)
+        
+        const resp = recettes.filter(recipe =>
+            selectedTags.every(tag => {
+                const tagLower = tag.toLowerCase()
+                return (
+                    recipe.ingredients.some(i => i.ingredient.toLowerCase().includes(tagLower)) ||
+                    recipe.appliance.toLowerCase().includes(tagLower) ||
+                    recipe.ustensils.some(u => u.toLowerCase().includes(tagLower))
+                )
+            })
+        )
+        console.log(selectedTags)
+        console.log(resp)
+        return resp
+    }
+    // Fonction pour afficher un message lorsque aucune recette ne correspond aux tags sélectionnés
+    function displayNoResultsMessage() {
+        afficheArticleRecette.innerHTML = '<p>Aucune recette ne correspond à vos tags.</p>'
+    }
+>>>>>>> b4c173aa0240abbff8782ef7bf827d02857e58e4
+>>>>>>> fd80b2ea2449ecc6bd84a9e00dc324374bcc922a
     rowTags.appendChild(colTags)
 }
 
