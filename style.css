@@ -1,7 +1,7 @@
 /* police d'ecriture du site */
 body {
     font-family: 'Lato', sans-serif;
-    user-select: none;
+    /* user-select: none; */
   }
   
 /* style pour le header */
@@ -101,7 +101,7 @@ ul{
 
 .rowDropdown{
 
-    margin: 30px 0px 20px 0px;
+    margin: 10px 0px 20px 0px;
 }
 /* STYLE POUR LES TAGS */
 
@@ -237,3 +237,29 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
 .dropdownList li{
     color: white;
 }
+
+
+
+@media (min-width: 498px) {
+  .artileRecipes{
+    width: 100%;
+   }
+ 
+}
+
+
+
+
+@media (min-width: 768px) {
+    .artileRecipes{
+       width: 50%;
+     }
+   
+  }
+  
+@media (min-width: 992px) {
+    .artileRecipes{
+        width: 31%;
+     }
+    
+  }
