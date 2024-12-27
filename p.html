@@ -1,41 +1,52 @@
-Pour mettre à jour les listes déroulantes en fonction des recettes filtrées par les tags, il faut appeler la fonction updateDropdowns(filtreRecipes)juste après avoir mis à jour les recettes filtrées dans updateRecetteByTag().
+Bien sûr, je vais expliquer ce code ligne par ligne :
 
-Voici où et comment intégrer cet appel :
-
-Modifications à apporter :
-Dans la fonction updateRecetteByTag():
-Récupérez les recettes filtrées en appelant filterRecipesByTags().
-Appelez updateDropdowns(filteredRecipes)pour mettre à jour les listes déroulantes.
-Le code modifié ressemble à ceci :
+Code :
 javascript
 
 Copier le code
-// Fonction pour mettre à jour les recettes filtrées selon les tags
-function updateRecetteByTag() {
-    const filteredRecipes = filterRecipesByTags(selectedTags, recettes)
-    
-    // Mettre à jour les dropdowns selon les recettes filtrées
-    updateDropdowns(filteredRecipes)
-
-    // Afficher les recettes ou un message si aucune recette n'est trouvée
-    if (filteredRecipes.length === 0) {
-        displayNoResultsMessage()
-    } else {
-        displayRecipes(filteredRecipes)
-    }
+// Fonction pour filtrer les recettes en fonction des tags sélectionnés
+function filterRecipes(recettes, selectedTags) {
+    return recettes.filter(recette => {
+        return recette.ingredients.some(ingredient =>
+            selectedTags.includes(ingredient.ingredient)
+        ) || selectedTags.includes(recipe.appliance) || selectedTags.some(tag => recipe.ustensils.includes(tag));
+    });
 }
-Pourquoi ici ?
-Cohérence des données :
+Explication détaillée :
+Déclaration de fonction :
 
-Après chaque mise à jour des recettes affichées (via les tags sélectionnés), il est logique de mettre à jour les listes déroulantes pour refléter uniquement les éléments pertinents dans les recettes filtrées.
-Réduire les appels inutiles :
+javascript
 
-En intégrant cet appel directement dans updateRecetteByTag(), la mise à jour des listes déroulantes est toujours synchronisée avec les tags actifs.
-Résultat attendu :
-Lorsqu'un utilisateur ajoute ou retire un tag :
-Les recettes sont filtrées.
-Les listes déroulantes sont automatiquement mises à jour pour contenir uniquement les ingrédients, appareils et ustensiles disponibles dans les recettes filtrées.
-Dis-moi si tu souhaites d'autres ajustements ou une explication plus détaillée ! 😊
+Copier le code
+function filterRecipes(recettes, selectedTags) {
+filterRecipes: C'est le nom de la fonction.
+recettes: C'est le tableau contenant les recettes à filtrer.
+selectedTags: C'est le tableau des tags sélectionnés que nous souhaitons utiliser pour filtrer les recettes.
+Utilisation defilter :
+
+javascript
+
+Copier le code
+return recettes.filter(recette => {
+La fonction filtercrée un nouveau tableau avec les éléments qui remplissent une condition spécifiée.
+Ici, recetteest l'élément de la liste recettespour chaque itération.
+Condition pour chaque recette :
+
+javascript
+
+Copier le code
+return recette.ingredients.some(ingredient =>
+    selectedTags.includes(ingredient.ingredient)
+) || selectedTags.includes(recipe.appliance) || selectedTags.some(tag => recipe.ustensils.includes(tag));
+recette.ingredients.some(ingredient => ...)vérifiez si au moins un des ingrédients de la recette correspond à un des tags sélectionnés. ingredient.ingredientfait référence à la propriété ingredientde chaque ingrédient.
+selectedTags.includes(ingredient.ingredient)vérifiez si le tag de l'ingrédient fait partie des tags sélectionnés.
+selectedTags.includes(recipe.appliance)vérifiez si l'appareil de la recette fait partie des tags sélectionnés.
+selectedTags.some(tag => recipe.ustensils.includes(tag))vérifiez si au moins un des ustensiles de la recette correspond à un des tags sélectionnés.
+Rendu :
+
+Si l'une des conditions est vraie, la recette est incluse dans le tableau filtré.
+filterretournez un tableau de recettes qui correspond aux critères spécifiés.
+En résumé, cette fonction filtre les recettes en fonction des tags sélectionnés, prenant en compte les ingrédients, les appareils et les ustensiles de chaque recette.
 
 
 
