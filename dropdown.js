@@ -74,6 +74,51 @@ function displayDropdowns(recipes) {
         dropdownHeaderId: 'ustensilesDropdownHeader'
     })
 }
+// Fonction pour créer les dropdowns de façon unique
+function displayDropdowns(recipes) {
+    const ingredients = Array.from(new Set(recipes.flatMap(r => r.ingredients.map(i => i.ingredient))))
+    const appareils = Array.from(new Set(recipes.map(r => r.appliance)))
+    const ustensiles = Array.from(new Set(recipes.flatMap(r => r.ustensils)))
+
+    // Dropdown des ingrédients
+    displayDropdown({
+        title: 'Ingrédients',
+        placeholder: 'Rechercher un ingrédient',
+        data: ingredients,
+        id: 'ingredientsDropdown',
+        containerClass: 'ingredientsContainer',
+        inputClass: 'inputIngredients',
+        buttonClass: 'buttonIngredients',
+        color: "#3282f7",
+        dropdownHeaderId: 'ingredientsDropdownHeader'
+    })
+
+    // Dropdown des appareils
+    displayDropdown({
+        title: 'Appareils',
+        placeholder: 'Rechercher un appareil',
+        data: appareils,
+        id: 'appareilsDropdown',
+        containerClass: 'appareilsContainer',
+        inputClass: 'inputAppareils',
+        buttonClass: 'buttonAppareils',
+        color: "#68d9a4",
+        dropdownHeaderId: 'appareilsDropdownHeader'
+    })
+
+    // Dropdown des ustensiles
+    displayDropdown({
+        title: 'Ustensiles',
+        placeholder: 'Rechercher un ustensile',
+        data: ustensiles,
+        id: 'ustensilesDropdown',
+        containerClass: 'ustensilesContainer',
+        inputClass: 'inputUstensiles',
+        buttonClass: 'buttonUstensiles',
+        color: "#ed6454",
+        dropdownHeaderId: 'ustensilesDropdownHeader'
+    })
+}
 
 let selectedTags = []
 // Fonction pour configurer les interactions sur un dropdown
@@ -136,9 +181,9 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     // Fonction pour ajouter un tag avec couleur
     function addTag(itemSelect, color) {
         if (selectedTags.length > 0) {
-            console.log(selectedTags);
+            // console.log(selectedTags);
             const indexFind = selectedTags.find(i => i === itemSelect);
-            console.log(indexFind);
+            // console.log(indexFind);
             if (!indexFind) {
                 selectedTags.push(itemSelect);
             }
@@ -156,44 +201,44 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         // Ajout d'un écouteur pour la suppression du tag
         tag.querySelector(".closeBtn").addEventListener("click", function () {
             colTags.removeChild(tag)
-            console.log(selectedTags);
+            // console.log(selectedTags);
             selectedTags = selectedTags.filter(t => t !== itemSelect)
             updateRecetteByTag()
         })
         updateRecetteByTag()
     }
-
     // Fonction pour mettre à jour les recettes filtrées selon les tags
     function updateRecetteByTag() {
-        const filteredRecipes = filterRecipes(recettes, selectedTags)
+        let filteredRecipes = filterRecipes(recettes, selectedTags);
         updateDropdowns(filteredRecipes)
         displayRecipes(filteredRecipes)
     }
-
-    // Fonction pour filtrer les recettes en fonction des tags sélectionnés
-    function filterRecipes(recettes, selectedTags) {
-        // Si aucun tag n'est sélectionné, retourner toutes les recettes
-        if (selectedTags.length === 0) {
-            return recettes;
-        }
-
-        // Filtrer les recettes en fonction des tags sélectionnés
-        const ResponseFilterRecipes = recettes.filter(recette => {
-            // Verification pour les ingredients
-            const hasSelectedIngredient = recette.ingredients.some(ingredient =>
-                selectedTags.includes(ingredient.ingredient)
-            );
-            // Vérification pour les ustensils
-            const hasSelectedUstensil = recette.ustensils.some(ustensil =>
-                selectedTags.includes(ustensil)
-            );
-
-            // Vérification pour l'appliance
-            const hasSelectedAppliance = selectedTags.includes(recette.appliance);
-            return hasSelectedIngredient || hasSelectedUstensil || hasSelectedAppliance
-        });
-        return ResponseFilterRecipes;
+ 
+// Fonction pour filtrer les recettes en fonction des tags sélectionnés
+function filterRecipes(recettes, selectedTags) {
+    // Si aucun tag n'est sélectionné, retourner toutes les recettes
+    if (selectedTags.length === 0) {
+        return recettes;
     }
+
+    // Convertion des tags sélectionnés en minuscules pour ignorer la casse
+    const lowerCaseTags = selectedTags.map(tag => tag.toLowerCase());
+
+    // Filtrer les recettes en fonction des tags sélectionnés
+    const ResponseFilterRecipes = recettes.filter(recette => {
+        return lowerCaseTags.every(tag =>
+            // Vérification dans les ingrédients
+            recette.ingredients.some(ingredient => ingredient.ingredient.toLowerCase() === tag) ||
+            // Vérification dans les ustensiles
+            recette.ustensils.some(ustensil => ustensil.toLowerCase() === tag) ||
+            // Vérification dans l'appareil
+            recette.appliance.toLowerCase() === tag
+        );
+    });
+
+    return ResponseFilterRecipes;
+}
+
     rowTags.appendChild(colTags)
 }
 
