@@ -15,11 +15,21 @@ function displayRecipes(recipes) {
                     <div class="col-3"><i class="far fa-clock"></i> ${recipe.time} min</div>
                 </div>
                 <div class="row ingredientsDescription">
-                    <ul class="col-8 colIngredientsClass">
-                        ${recipe.ingredients.map(ingredient => `
-                            <li>${ingredient.ingredient}${ingredient.quantity ? `: ${ingredient.quantity}` : ''}${ingredient.unit ? ` ${ingredient.unit}` : ''}</li>
-                        `).join('')}
-                    </ul>
+                  <ul class="col-8 colIngredientsClass">
+                    ${recipe.ingredients.map(ingredient => {
+                        let result = `<li style=" white-space: nowrap; overflow:hidden; text-overflow: ellipsis;"><span style="font-weight: 900;">${ingredient.ingredient}</span>`;
+                        
+                        if (ingredient.quantity) {
+                            result += `: ${ingredient.quantity}`;
+                        } 
+                        
+                        if (ingredient.unit) {
+                            result += ` ${ingredient.unit}`;
+                        }
+                        result += `</li>`;
+                        return result;
+                    }).join('')}
+                </ul>
                     <div class="col-4 colDescriptionClass">
                         <span>${recipe.description}</span>
                     </div>
@@ -27,64 +37,6 @@ function displayRecipes(recipes) {
             </div>
         `
         afficheArticleRecette.appendChild(article)
-    })
-}
-// Fonction pour afficher le contenu d'une recette ou l'article recette 
-function displayItemsRecipes(recipes) {
-    const afficheArticleRecette = document.getElementById("sectionArticle")
-    recipes.forEach(recipe => {
-        const artileRecipes = document.createElement("div")
-        artileRecipes.className = "artileRecipes"
-        // creation de la premiere ligne(ligne vide)
-        const emptyRow = document.createElement("div")
-        emptyRow.className = "emptyRow"
-        // creationde la deuxième ligne (ligne conenant les elements d'une recette)
-        const fullRow = document.createElement("div")
-        fullRow.className = "fullRow"
-        // creation de la ligne nom et temps de cuisson
-        const nameTimeDiv = document.createElement("div")
-        nameTimeDiv.className = "row  nameTimeDiv"
-        nameTimeDiv.innerHTML = `
-    <div class="col-9">${recipe.name}</div>
-    <div class="col-3"><i class="far fa-clock"></i> <span>${recipe.time} min</span></div>
-    `
-        fullRow.appendChild(nameTimeDiv)
-        // CREATION DE LA LIGNE INGREDIENT ET DESCRIPTION
-        // CREATION DE LA LIGNE INGREDIENT ET DESCRIPTION
-        const rowIngredientsDescription = document.createElement("div")
-        rowIngredientsDescription.className = "row ingredientsDescription"
-        // Colonne des ingrédients
-        const colIngredients = document.createElement("ul")
-        colIngredients.className = "col-8 colIngredientsClass"
-
-        // Parcours de chaque ingrédient et ajout à la page
-        recipe.ingredients.forEach(ingredient => {
-            const ingredientItem = document.createElement('li')
-            ingredientItem.className = "ingredientItem"
-            // Création du texte de l'ingrédient
-            let ingredientText = `${ingredient.ingredient}`
-            if (ingredient.quantity) {
-                ingredientText = ` ${ingredient.ingredient} ${ingredient.quantity} ${ingredient.unit ? ingredient.unit : ''}`
-            }
-            ingredientItem.textContent = ingredientText
-            colIngredients.appendChild(ingredientItem)
-            rowIngredientsDescription.appendChild(colIngredients)
-            fullRow.appendChild(rowIngredientsDescription)
-        })
-
-        // Colonne de description
-        const colDescription = document.createElement("div");
-        colDescription.className = "col-4 colDescriptionClass"
-        const description = document.createElement("span")
-        description.textContent = recipe.description
-        colDescription.appendChild(description)
-        rowIngredientsDescription.appendChild(colDescription)
-        fullRow.appendChild(rowIngredientsDescription)
-        // ajout des lignes das la carte article
-        artileRecipes.appendChild(emptyRow)
-        artileRecipes.appendChild(fullRow)
-
-        afficheArticleRecette.appendChild(artileRecipes)
     })
 }
 // Fonction de recherche principale

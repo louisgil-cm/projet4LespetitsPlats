@@ -1,7 +1,7 @@
-/* police d'ecriture du site */
+*******/* police d'ecriture du site */
 body {
     font-family: 'Lato', sans-serif;
-    /* user-select: none; */
+    user-select: none;
   }
   
 /* style pour le header */
@@ -15,24 +15,44 @@ header img{
     height: 100px;
 }
 /*search section */
+/* 
 .loup{
     display: flex;
-    margin: 15px;
+    
     align-items: center;
     justify-content: center;
 }
 .loup input{
-outline: none;
-padding: 15px;
-border-radius: 7px;
+
 
 }
-.loup i{
-position: absolute;
-right: 11%;
-font-size: 20px;
-}
 
+} */
+
+.loup {
+    position: relative; 
+    width: 100%; 
+    margin: auto; 
+    
+  }
+  
+  .loup input {  
+    box-sizing: border-box; 
+    outline: none;
+    padding: 15px;
+    border-radius: 7px;
+  }
+  
+  .loup i {
+    position: absolute; 
+    right: 10px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    /* color: #ccc;  */
+    pointer-events: none; 
+    font-size: 20px;
+  }
+  
 /* style pour la section recette */
 
 #sectionArticle{
@@ -49,13 +69,15 @@ font-size: 20px;
     height: 500px;
     border: solid 1px white;
     border-radius: 7px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 6px #0000001a, 0 1px 3px #00000014;
     transition: box-shadow 0.3s ease, transform 0.3s ease; 
+    user-select: none;
+
 }
 
 .artileRecipes:hover {
     transform: translateY(-8px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 15px #00000033, 0 4px 6px #0000001a;
 }
 /* ligne de la partie vide d'un article */
 .emptyRow{
@@ -76,13 +98,17 @@ font-family: 'Lato', sans-serif;
 /* ligne nom et temps */
 .nameTimeDiv{
     margin-bottom: 15px;
+    font-weight: bold;
+}
+.fa-clock{
+    color: black;
+    font-size: 20px;
 }
 /* description */
 .colDescriptionClass{
 height: 215px;
 overflow: hidden;
 text-overflow: ellipsis;
-
 }
 ul{
     list-style-type: none;
@@ -98,40 +124,48 @@ ul{
 .tagsDropdown{
     margin-top: 25px;
 }
+.rowTags{
+    /* background-color: #6a0505; */
+    display: flex;
+    padding: 5px;
 
+}
+.colTags{
+    /* background-color: aqua; */
+    display: flex;
+}
+.tag{
+    margin-right: 10px;
+}
 .rowDropdown{
-
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     margin: 10px 0px 20px 0px;
+    /* background-color: #6a0505; */
 }
 /* STYLE POUR LES TAGS */
 
 
 /* style sur les dropdowns */
 .dropdownBody{
-    display: none;
     border: 1px solid transparent;
     border-radius: 7px;
     padding-bottom: 20px;
+    width: 700px;
+    position: absolute;
+    top: 1%;
+    z-index: 10;
+    display: none;
 }
-.dropdownHeader{
-    border: transparent 1px solid;
-    border-radius: 7px;
-    padding: 10px;
-}
+
 /* STYLE POUR LES TAGS */
 
 
-/* style sur les dropdowns */
-.dropdownBody{
-    display: none;
-    border: 1px solid transparent;
-    border-radius: 7px;
-    padding-bottom: 20px;
-}
 .dropdownHeader{
     border: transparent 1px solid;
     border-radius: 7px;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,7 +184,6 @@ button{
 .dropdownSearch{
     padding: 30px;
     display: flex;
-    justify-content: space-between;
     justify-content: space-between;
     align-items: center;
 }
@@ -178,12 +211,7 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
     color: #f0eaea;
     font-weight: 30;
 }
-.dropdownBody{
-    width: 700px;
-    position: absolute;
-    top: 1%;
-    z-index: 10;
-}
+
 .dropdownList{
     column-count: 3;
 }
@@ -195,23 +223,32 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
     background-color: #6a0505;
     font-weight: 30;
 }
-.dropdownBody{
-    width: 700px;
-    position: absolute;
-    top: 1%;
-    z-index: 10;
-}
+
 .dropdownList{
-    column-count: 3;
+    column-count: 1;
+    cursor: pointer;
+}
+.dropdownList li {
+    border: solid 1px transparent;
+
+}
+.dropdownList li:hover{
+    background-color: #9b9a9a;
+    border-radius: 7px;
+    padding: 2px;
 }
 .classList{
     color: white;
     cursor: pointer;
+    border-radius: 7px;
 }
 .classList:hover {
     background-color: #6a0505;
 }
 
+/* .col-8 li{
+    background-color: red;
+} */
 .fa-solid{
     cursor: pointer;
 }
@@ -220,6 +257,7 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
+    max-width: 100%;
 }
 .tag {
     display: flex;
@@ -230,6 +268,8 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
     border: 1px solid transparent;
     border-radius: 7px;
     color: white;
+    flex-wrap: wrap;
+
 }
 .fa-regular{
     color: white;
@@ -239,27 +279,93 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
 }
 
 
-
-@media (min-width: 498px) {
-  .artileRecipes{
-    width: 100%;
-   }
- 
-}
-
+@media (min-width: 280px) {
+    .artileRecipes {
+      width: 400%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .dropdownList {
+      column-count: 1;
+    }
+    .dropdownBody {
+      width: 200px;
+    }
+  }
+  
+  
 
 
 
 @media (min-width: 768px) {
     .artileRecipes{
-       width: 50%;
+       width: 45%;
      }
+     /* body{
+        background-color: red;
+       } */
+       .dropdownList{
+        column-count: 1;
+    }
    
+    .rowDropdown{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
   }
   
-@media (min-width: 992px) {
+  @media (min-width: 700px) {
+    .dropdownBody{
+        width: 400px;
+    }
+}
+@media (max-width: 700px) {
+    .rowDropdown{  
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dropdownBody{
+        width: 325px;
+    }
+    
+  }
+
+ 
+@media (min-width: 998px) {
     .artileRecipes{
         width: 31%;
      }
+  }
+    
+    
+  @media (min-width: 1300px) {
+    .dropdownList{
+        column-count: 3;
+    }
+    .dropdownBody{
+        width: 700px;
+    }
+    .rowDropdown{
+        display: flex;
+        align-items: start;
+        justify-content: start;
+        gap: 30px;
+    }
+  
+}
+
+@media (max-width: 1300px) {
+    .dropdownHeader{
+        width: 300px !important;
+    }
+    .rowDropdown{  
+        flex-direction: column;
+        gap: 20px;
+    }
     
   }
+
+

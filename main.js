@@ -1,4 +1,3 @@
-
 // Fonction pour récupérer les données des recette
 async function loadRecipes() {
     const response = await fetch("recipes.json")
