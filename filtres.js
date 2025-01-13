@@ -39,6 +39,7 @@ function displayRecipes(recipes) {
         afficheArticleRecette.appendChild(article)
     })
 }
+
 // Fonction de recherche principale
 function recherchePrincipale(recipes) {
     const inputSearch = document.getElementById("inputSearch")
