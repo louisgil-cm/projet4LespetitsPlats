@@ -56,32 +56,27 @@ function recherchePrincipaleBoucles(recipes) {
     }
 
     inputSearch.addEventListener("input", () => {
-        const inputUser = inputSearch.value.trim().toLowerCase(); // Supprime les espaces inutiles
-
+        const inputUser = inputSearch.value.trim().toLowerCase(); 
         // Si la saisie est inférieure à 3 caractères, réinitialiser l'affichage
         if (inputUser.length < 3) {
             displayRecipes(recipes);
             updateDropdowns(recipes);
             return;
         }
-
         // Filtrer les recettes manuellement
         const filtreRecipes = [];
         for (let i = 0; i < recipes.length; i++) {
             const recipe = recipes[i];
-
             // Vérification du nom de la recette
             if (recipe.name.toLowerCase().includes(inputUser)) {
                 filtreRecipes.push(recipe);
                 continue;
             }
-
             // Vérification de la description
             if (recipe.description.toLowerCase().includes(inputUser)) {
                 filtreRecipes.push(recipe);
                 continue;
             }
-
             // Vérification des ingrédients
             let ingredientFound = false;
             for (let j = 0; j < recipe.ingredients.length; j++) {
@@ -95,7 +90,6 @@ function recherchePrincipaleBoucles(recipes) {
                 filtreRecipes.push(recipe);
             }
         }
-
         // Affichage des recettes filtrées ou d'un message d'absence de résultats
         if (filtreRecipes.length > 0) {
             displayRecipes(filtreRecipes);
@@ -104,7 +98,6 @@ function recherchePrincipaleBoucles(recipes) {
                 <p>Aucune recette ne correspond à votre recherche.</p>
             `;
         }
-
         // Mise à jour des listes déroulantes
         updateDropdowns(filtreRecipes);
     });
