@@ -39,7 +39,6 @@ function displayRecipes(recipes) {
         afficheArticleRecette.appendChild(article)
     })
 }
-
 // Fonction de recherche principale
 function recherchePrincipale(recipes) {
     const inputSearch = document.getElementById("inputSearch")
@@ -67,7 +66,6 @@ function recherchePrincipale(recipes) {
 
     })
 }
-
 function reinitializeDropdownInteractions() {
     dropdownInteractions('ingredientsDropdown', 'ingredientsDropdownHeader', '#3282f7')
     dropdownInteractions('appareilsDropdown', 'appareils', '#68d9a4')
