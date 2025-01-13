@@ -5,7 +5,7 @@ async function loadRecipes() {
     // Afficher les recettes
     displayRecipes(recipes)
     // Ajouter la recherche principale
-    recherchePrincipale(recipes)
+    recherchePrincipaleBoucles(recipes) 
     // Créer les dropdowns
     displayDropdowns(recipes)
    

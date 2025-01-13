@@ -6,7 +6,6 @@ function displayRecipes(recipes) {
     recipes.forEach(recipe => {
         const article = document.createElement("div")
         article.className = "artileRecipes"
-
         article.innerHTML = `
             <div class="emptyRow"></div>
             <div class="fullRow">
@@ -40,31 +39,75 @@ function displayRecipes(recipes) {
     })
 }
 // Fonction de recherche principale
-function recherchePrincipale(recipes) {
-    const inputSearch = document.getElementById("inputSearch")
+
+function recherchePrincipaleBoucles(recipes) {
+    // Vérification de la validité de l'entrée
+    if (!Array.isArray(recipes)) {
+        console.error("Le paramètre recipes doit être un tableau.");
+        return;
+    }
+
+    const inputSearch = document.getElementById("inputSearch");
+    const afficheArticleRecette = document.getElementById("sectionArticle");
+
+    if (!inputSearch || !afficheArticleRecette) {
+        console.error("Les éléments HTML nécessaires sont introuvables.");
+        return;
+    }
+
     inputSearch.addEventListener("input", () => {
-        const inputUser = inputSearch.value.toLowerCase()
-        const afficheArticleRecette = document.getElementById("sectionArticle")
+        const inputUser = inputSearch.value.trim().toLowerCase(); // Supprime les espaces inutiles
+
+        // Si la saisie est inférieure à 3 caractères, réinitialiser l'affichage
         if (inputUser.length < 3) {
-            displayRecipes(recipes)
-            updateDropdowns(recipes)
-            return
+            displayRecipes(recipes);
+            updateDropdowns(recipes);
+            return;
         }
-        const filtreRecipes = recipes.filter(recipe =>
-            recipe.name.toLowerCase().includes(inputUser) ||
-            recipe.description.toLowerCase().includes(inputUser) ||
-            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(inputUser))
-        )
 
-        if (filtreRecipes.length) {
-            displayRecipes(filtreRecipes)
-        }
-        else {
-            afficheArticleRecette.innerHTML = '<p>Aucune recette ne correspond à votre recherche.</p>'
-        }
-        updateDropdowns(filtreRecipes)
+        // Filtrer les recettes manuellement
+        const filtreRecipes = [];
+        for (let i = 0; i < recipes.length; i++) {
+            const recipe = recipes[i];
 
-    })
+            // Vérification du nom de la recette
+            if (recipe.name.toLowerCase().includes(inputUser)) {
+                filtreRecipes.push(recipe);
+                continue;
+            }
+
+            // Vérification de la description
+            if (recipe.description.toLowerCase().includes(inputUser)) {
+                filtreRecipes.push(recipe);
+                continue;
+            }
+
+            // Vérification des ingrédients
+            let ingredientFound = false;
+            for (let j = 0; j < recipe.ingredients.length; j++) {
+                const ingredient = recipe.ingredients[j];
+                if (ingredient.ingredient.toLowerCase().includes(inputUser)) {
+                    ingredientFound = true;
+                    break;
+                }
+            }
+            if (ingredientFound) {
+                filtreRecipes.push(recipe);
+            }
+        }
+
+        // Affichage des recettes filtrées ou d'un message d'absence de résultats
+        if (filtreRecipes.length > 0) {
+            displayRecipes(filtreRecipes);
+        } else {
+            afficheArticleRecette.innerHTML = `
+                <p>Aucune recette ne correspond à votre recherche.</p>
+            `;
+        }
+
+        // Mise à jour des listes déroulantes
+        updateDropdowns(filtreRecipes);
+    });
 }
 
 function reinitializeDropdownInteractions() {
