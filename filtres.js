@@ -13,8 +13,8 @@ function displayRecipes(recipes) {
             <div class="emptyRow"></div>
             <div class="fullRow">
                 <div class="row nameTimeDiv">
-                    <div class="col-9">${recipe.name}</div>
-                    <div class="col-3"><i class="far fa-clock"></i> ${recipe.time} min</div>
+                    <div class="col-8">${recipe.name}</div>
+                    <div class="col-4"><i class="far fa-clock"></i> ${recipe.time} min</div>
                 </div>
                 <div class="row ingredientsDescription">
                     <ul class="col-5 colIngredientsClass">
