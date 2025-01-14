@@ -89,56 +89,72 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     const listItems = dropdown.querySelectorAll('li')
     const dropdownHeader = document.querySelectorAll(".dropdownHeader")
     console.log(dropdownHeader)
+    const dropdowns = document.querySelectorAll('.dropdown');
 
-   
-// Variable pour suivre l'élément actif
-let activeHeader = null;
+    // Variable globale pour suivre le dropdown actif
+    let activeDropdown = null;
 
-// Ouvrir le dropdown
-chevronDown.addEventListener('click', (e) => {
-    e.stopPropagation(); // Empêcher la propagation du clic
-    dropdownBody.style.display = 'block';
-    chevronDown.style.display = 'none';
-    chevronUp.style.display = 'inline';
+    dropdowns.forEach((dropdown) => {
+        const chevronDown = dropdown.querySelector('.fa-chevron-down');
+        const chevronUp = dropdown.querySelector('.fa-chevron-up');
+        const dropdownBody = dropdown.querySelector('.dropdownBody');
+        const dropdownHeader = dropdown.querySelector('.dropdownHeader');
 
-    // Agrandir le bouton (header parent de l'icône)
-    const header = chevronDown.closest('.dropdownHeader');
-    if (header) {
-        if (activeHeader && activeHeader !== header) {
-            activeHeader.style.width = 'initial';
+        // Ouvrir le dropdown
+        chevronDown.addEventListener('click', (e) => {
+            // Empêche la propagation du clic
+            e.stopPropagation(); 
+
+            // Fermeture du dropdown actif s'il est différent du nouveau
+            if (activeDropdown && activeDropdown !== dropdown) {
+                closeDropdown(activeDropdown);
+            }
+
+            // Ouverture du dropdown actuel
+            dropdownBody.style.display = 'block';
+            chevronDown.style.display = 'none';
+            chevronUp.style.display = 'inline';
+
+            if (dropdownHeader) {
+                dropdownHeader.style.width = '700px';
+            }
+
+            activeDropdown = dropdown;
+        });
+
+        // Fermeture du dropdown avec le bouton de fermeture
+        chevronUp.addEventListener('click', () => {
+            closeDropdown(dropdown);
+        });
+    });
+
+    // Fermeture de tous les dropdowns si on clique ailleurs
+    document.addEventListener('click', (e) => {
+        if (activeDropdown && !activeDropdown.contains(e.target)) {
+            closeDropdown(activeDropdown);
         }
-        header.style.width = '700px';
-        activeHeader = header;
-    }
-});
+    });
 
-//Fermer le dropdown avec le bouton de fermeture
-chevronUp.addEventListener('click', () => {
-    dropdownBody.style.display = 'none';
-    chevronDown.style.display = 'inline';
-    chevronUp.style.display = 'none';
+    // Fonction pour fermer un dropdown
+    function closeDropdown(dropdown) {
+        const chevronDown = dropdown.querySelector('.fa-chevron-down');
+        const chevronUp = dropdown.querySelector('.fa-chevron-up');
+        const dropdownBody = dropdown.querySelector('.dropdownBody');
+        const dropdownHeader = dropdown.querySelector('.dropdownHeader');
 
-    // Réinitialiser le style de l'élément actif
-    if (activeHeader) {
-        activeHeader.style.width = 'initial';
-        activeHeader = null;
-    }
-});
-
-//Fermer le dropdown en cliquant ailleurs
-document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target)) {
         dropdownBody.style.display = 'none';
         chevronDown.style.display = 'inline';
         chevronUp.style.display = 'none';
 
-        // Réinitialiser le style de l'élément actif
-        if (activeHeader) {
-            activeHeader.style.width = 'initial';
-            activeHeader = null;
+        if (dropdownHeader) {
+            dropdownHeader.style.width = 'initial';
+        }
+
+        if (activeDropdown === dropdown) {
+            activeDropdown = null;
         }
     }
-});
+
     // Recherche dans le dropdown
     inputSearch.addEventListener('input', () => {
         const filter = inputSearch.value.toLowerCase()
@@ -148,7 +164,7 @@ document.addEventListener('click', (e) => {
             } else {
                 item.style.display = 'none';
             }
-            
+
         })
     })
     // Gestion des tags sélectionnés
@@ -231,5 +247,10 @@ document.addEventListener('click', (e) => {
     }
     rowTags.appendChild(colTags)
 }
+
+
+
+
+
 
 
