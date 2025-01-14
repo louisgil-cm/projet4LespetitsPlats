@@ -1,11 +1,14 @@
 
 // Fonction pour afficher les recettes
 function displayRecipes(recipes) {
-    const afficheArticleRecette = document.getElementById("sectionArticle")
-    afficheArticleRecette.innerHTML = ""
+    const afficheArticleRecette = document.getElementById("sectionArticle");
+    afficheArticleRecette.innerHTML = "";
+    
     recipes.forEach(recipe => {
-        const article = document.createElement("div")
-        article.className = "artileRecipes"
+        const article = document.createElement("div");
+        article.className = "artileRecipes";
+
+        // Ajouter le contenu HTML de l'article
         article.innerHTML = `
             <div class="emptyRow"></div>
             <div class="fullRow">
@@ -14,30 +17,42 @@ function displayRecipes(recipes) {
                     <div class="col-3"><i class="far fa-clock"></i> ${recipe.time} min</div>
                 </div>
                 <div class="row ingredientsDescription">
-                  <ul class="col-8 colIngredientsClass">
-                    ${recipe.ingredients.map(ingredient => {
-                        let result = `<li style=" white-space: nowrap; overflow:hidden; text-overflow: ellipsis;"><span style="font-weight: 900;">${ingredient.ingredient}</span>`;
-                        
-                        if (ingredient.quantity) {
-                            result += `: ${ingredient.quantity}`;
-                        } 
-                        
-                        if (ingredient.unit) {
-                            result += ` ${ingredient.unit}`;
-                        }
-                        result += `</li>`;
-                        return result;
-                    }).join('')}
-                </ul>
-                    <div class="col-4 colDescriptionClass">
+                    <ul class="col-5 colIngredientsClass">
+                        ${recipe.ingredients.map(ingredient => {
+                            let result = `<li style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><span style="font-weight: 900;">${ingredient.ingredient}</span>`;
+                            if (ingredient.quantity) {
+                                result += `: ${ingredient.quantity}`;
+                            } 
+                            if (ingredient.unit) {
+                                result += ` ${ingredient.unit}`;
+                            }
+                            result += `</li>`;
+                            return result;
+                        }).join('')}
+                    </ul>
+                    <div class="col-7 colDescriptionClass">
                         <span>${recipe.description}</span>
                     </div>
                 </div>
             </div>
-        `
-        afficheArticleRecette.appendChild(article)
-    })
+        `;
+
+        // Ajouter l'article au DOM
+        afficheArticleRecette.appendChild(article);
+
+        // Sélectionner et styliser `.emptyRow`
+        const imageElementDiv = article.querySelector(".emptyRow");
+        imageElementDiv.style.backgroundColor = "red";
+
+        // Ajouter une image
+        const imageElement = document.createElement("img");
+        imageElement.className = "w-100 imageH"
+        imageElement.src = recipe.image;
+        imageElement.alt = recipe.name;
+        imageElementDiv.appendChild(imageElement);
+    });
 }
+
 // Fonction de recherche principale
 function recherchePrincipaleBoucles(recipes) {
     // Vérification de la validité de l'entrée
