@@ -37,14 +37,12 @@ function displayRecipes(recipes) {
             </div>
         `;
 
-        // Ajouter l'article au DOM
+        // Ajout de l'article au DOM
         afficheArticleRecette.appendChild(article);
-
-        // Sélectionner et styliser `.emptyRow`
         const imageElementDiv = article.querySelector(".emptyRow");
         imageElementDiv.style.backgroundColor = "red";
 
-        // Ajouter une image
+        // Ajout d'une image
         const imageElement = document.createElement("img");
         imageElement.className = "w-100 imageH"
         imageElement.src = recipe.image;
