@@ -62,10 +62,14 @@ header img{
     font-family: 'Lato', sans-serif;
     align-items: center;
     justify-content: center;
+    /* background-color: #6a0505; */
+  
+
+    
+
 }
 /* carte article */
 .artileRecipes{
-   width: 31% ;
     height: 500px;
     border: solid 1px white;
     border-radius: 7px;
@@ -293,9 +297,6 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
     }
   }
   
-  
-
-
 
 @media (min-width: 768px) {
     .artileRecipes{
@@ -334,12 +335,13 @@ input[placeholder="Rechercher un ustensile"]::placeholder{
   }
 
  
-@media (min-width: 998px) {
+@media (min-width: 1116px) {
     .artileRecipes{
-        width: 31%;
+        width: 30.9%;
      }
   }
     
+  
     
   @media (min-width: 1300px) {
     .dropdownList{

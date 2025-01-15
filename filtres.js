@@ -15,7 +15,7 @@ function displayRecipes(recipes) {
                     <div class="col-4"><i class="far fa-clock"></i> ${recipe.time} min</div>
                 </div>
                 <div class="row ingredientsDescription">
-                  <ul class="col-8 colIngredientsClass">
+                  <ul class="col-5 colIngredientsClass">
                     ${recipe.ingredients.map(ingredient => {
                         let result = `<li style=" white-space: nowrap; overflow:hidden; text-overflow: ellipsis;"><span style="font-weight: 900;">${ingredient.ingredient}</span>`;
                         
@@ -30,7 +30,7 @@ function displayRecipes(recipes) {
                         return result;
                     }).join('')}
                 </ul>
-                    <div class="col-4 colDescriptionClass">
+                    <div class="col-7 colDescriptionClass">
                         <span>${recipe.description}</span>
                     </div>
                 </div>
