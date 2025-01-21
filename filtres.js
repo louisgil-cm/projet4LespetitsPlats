@@ -36,7 +36,7 @@ function displayRecipes(recipes) {
         afficheArticleRecette.appendChild(article)
     })
 }
-// Fonction de recherche principale
+// Fonction de recherche principale avec les boucles modernes
 function recherchePrincipale(recipes) {
     const inputSearch = document.getElementById("inputSearch")
     inputSearch.addEventListener("input", () => {
