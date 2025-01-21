@@ -6,7 +6,6 @@ function displayRecipes(recipes) {
     recipes.forEach(recipe => {
         const article = document.createElement("div")
         article.className = "artileRecipes"
-
         article.innerHTML = `
             <div class="emptyRow"></div>
             <div class="fullRow">
@@ -18,11 +17,9 @@ function displayRecipes(recipes) {
                   <ul class="col-5 colIngredientsClass">
                     ${recipe.ingredients.map(ingredient => {
                         let result = `<li style=" white-space: nowrap; overflow:hidden; text-overflow: ellipsis;"><span style="font-weight: 900;">${ingredient.ingredient}</span>`;
-                        
                         if (ingredient.quantity) {
                             result += `: ${ingredient.quantity}`;
                         } 
-                        
                         if (ingredient.unit) {
                             result += ` ${ingredient.unit}`;
                         }
