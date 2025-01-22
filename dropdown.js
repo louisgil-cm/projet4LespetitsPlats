@@ -82,14 +82,12 @@ let selectedTags = []
 // Fonction pour configurer les interactions sur un dropdown
 function dropdownInteractions(id, dropdownHeaderId, color) {
     const dropdown = document.querySelector(`.dropdown.${id}`)
-    const chevronDown = dropdown.querySelector('.fa-chevron-down')
-    const chevronUp = dropdown.querySelector('.fa-chevron-up')
-    const dropdownBody = dropdown.querySelector('.dropdownBody')
     const inputSearch = dropdown.querySelector('input')
     const listItems = dropdown.querySelectorAll('li')
     const dropdownHeader = document.querySelectorAll(".dropdownHeader")
     console.log(dropdownHeader)
     const dropdowns = document.querySelectorAll('.dropdown');
+    console.log(dropdownHeaderId);
 
     // Variable globale pour suivre le dropdown actif
     let activeDropdown = null;
@@ -103,7 +101,7 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
         // Ouvrir le dropdown
         chevronDown.addEventListener('click', (e) => {
             // Empêche la propagation du clic
-            e.stopPropagation(); 
+            e.stopPropagation();
 
             // Fermeture du dropdown actif s'il est différent du nouveau
             if (activeDropdown && activeDropdown !== dropdown) {
@@ -167,10 +165,10 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
 
         })
     })
+
     // Gestion des tags sélectionnés
     const rowTags = document.getElementById("rowTags")
-    const colTags = document.createElement("div")
-    colTags.className = "colTags"
+    const tagsDropdown = document.getElementById("tagsDropdown")
     // Ajout d'un tag
     listItems.forEach(item => {
         // console.log(item)
@@ -185,55 +183,60 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
     function tagSelected(itemSelect) {
         return selectedTags.includes(itemSelect)
     }
-    // Fonction pour ajouter un tag avec couleur
+    // Fonction pour ajouter un tag avec couleur et trier les tags en fonction de la couleur
+
     function addTag(itemSelect, color) {
-        if (selectedTags.length > 0) {
-            // console.log(selectedTags);
-            const indexFind = selectedTags.find(i => i === itemSelect);
-            // console.log(indexFind);
-            if (!indexFind) {
-                selectedTags.push(itemSelect);
-            }
-            console.log(selectedTags);
-        } else if (selectedTags.length === 0) {
-            selectedTags.push(itemSelect);
+        // Vérifie si l'élément est déjà dans la liste
+        if (!selectedTags.some(tag => tag.item === itemSelect)) {
+            // Ajout de l'élément avec sa couleur dans un objet
+            selectedTags.push({ item: itemSelect, color });
+            // Trie des tags par leur couleur
+            selectedTags.sort((a, b) => a.color.localeCompare(b.color));
         }
-        // Création de l'élément tag
-        const tag = document.createElement("div")
-        tag.classList.add("tag")
-        tag.style.backgroundColor = color
-        tag.innerHTML = `${itemSelect} <span class="closeBtn"><i class="fa-regular fa-circle-xmark"></i></span>`
-        // Ajout du tag au conteneur
-        colTags.appendChild(tag)
-        // Ajout d'un écouteur pour la suppression du tag
-        tag.querySelector(".closeBtn").addEventListener("click", function () {
-            colTags.removeChild(tag)
-            // colTags.style.backgroundColor = "yellow"
-            selectedTags = selectedTags.filter(t => t !== itemSelect)
-            updateRecetteByTag()
-        })
-        updateRecetteByTag()
+
+        // Met à jour de l'affichage des tags dans le DOM
+        updateTagDisplay();
     }
-    // Fonction pour mettre à jour les recettes filtrées selon les tags
+
+    // Fonction pour mettre à jour les tags affichés dans le DOM
+    function updateTagDisplay() {
+        // Vide le conteneur des tags
+        rowTags.innerHTML = '';
+
+        // Recrée et ajoute chaque tag trié
+        selectedTags.forEach(t => {
+            const tag = document.createElement("div");
+            tag.classList.add("tag");
+            tag.style.backgroundColor = t.color; 
+            tag.innerHTML = `${t.item} <span class="closeBtn"><i class="fa-regular fa-circle-xmark"></i></span>`;
+
+            // Ajoute un écouteur pour supprimer un tag
+            tag.querySelector(".closeBtn").addEventListener("click", function () {
+                rowTags.removeChild(tag);
+                selectedTags = selectedTags.filter(t => t.item !== t.item);
+                updateRecetteByTag();
+            });
+
+            // Ajoute le tag au conteneur
+            rowTags.appendChild(tag);
+        });
+
+        // Mets à jour les recettes filtrées
+        updateRecetteByTag();
+    }
+
     function updateRecetteByTag() {
-        let filteredRecipes = filterRecipes(recettes, selectedTags);
-        updateDropdowns(filteredRecipes)
-        displayRecipes(filteredRecipes)
-    }
-
-    // Fonction pour filtrer les recettes en fonction des tags sélectionnés
-    function filterRecipes(recettes, selectedTags) {
-        // Si aucun tag n'est sélectionné, retourner toutes les recettes
-        if (selectedTags.length === 0) {
-            return recettes;
+        // Récupère uniquement les noms des tags sélectionnés
+        const selectedTagNames = selectedTags.map(tag => tag.item.toLowerCase());
+        // Si aucun tag n'est sélectionné, afficher toutes les recettes
+        if (selectedTagNames.length === 0) {
+            displayRecipes(recettes); 
+            updateDropdowns(recettes); 
+            return;
         }
-
-        // Convertion des tags sélectionnés en minuscules pour ignorer la casse
-        const lowerCaseTags = selectedTags.map(tag => tag.toLowerCase());
-
         // Filtrer les recettes en fonction des tags sélectionnés
-        const ResponseFilterRecipes = recettes.filter(recette => {
-            return lowerCaseTags.every(tag =>
+        const filteredRecipes = recettes.filter(recette => {
+            return selectedTagNames.every(tag =>
                 // Vérification dans les ingrédients
                 recette.ingredients.some(ingredient => ingredient.ingredient.toLowerCase() === tag) ||
                 // Vérification dans les ustensiles
@@ -243,11 +246,13 @@ function dropdownInteractions(id, dropdownHeaderId, color) {
             );
         });
 
-        return ResponseFilterRecipes;
+        // Affiche les recettes filtrées
+        displayRecipes(filteredRecipes);
+        updateDropdowns(filteredRecipes);
     }
-    rowTags.appendChild(colTags)
-}
 
+    tagsDropdown.appendChild(rowTags);
+}
 
 
 

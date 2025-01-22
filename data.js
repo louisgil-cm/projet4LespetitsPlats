@@ -1724,3 +1724,44 @@ let recettes = [
         "ustensils":["rouleau à patisserie","fouet"]
     }
 ]
+
+
+
+
+// Fonction pour ajouter un tag avec couleur et trier les tags en fonction de la couleur
+function addTag(itemSelect, color) {
+    // Vérifie si l'élément est déjà dans la liste
+    if (!selectedTags.includes(itemSelect)) {
+        selectedTags.push(itemSelect);
+        // Trie le tableau après avoir ajouté l'élément
+        selectedTags.sort();
+    }
+
+    // Met à jour l'affichage des tags dans le DOM
+    updateTagDisplay();
+}
+// Fonction pour mettre à jour les tags affichés dans le DOM
+function updateTagDisplay() {
+    // Vide le conteneur des tags
+    rowTags.innerHTML = '';
+
+    // Recrée et ajoute chaque tag trié
+    selectedTags.forEach(itemSelect => {
+        const tag = document.createElement("div");
+        tag.classList.add("tag");
+        tag.innerHTML = `${itemSelect} <span class="closeBtn"><i class="fa-regular fa-circle-xmark"></i></span>`;
+
+        // Ajoute un écouteur pour supprimer un tag
+        tag.querySelector(".closeBtn").addEventListener("click", function () {
+            rowTags.removeChild(tag);
+            selectedTags = selectedTags.filter(t => t !== itemSelect);
+            updateRecetteByTag();
+        });
+
+        // Ajoute le tag au conteneur
+        rowTags.appendChild(tag);
+    });
+
+    // Mets à jour les recettes filtrées
+    updateRecetteByTag();
+}

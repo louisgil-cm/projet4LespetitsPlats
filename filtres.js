@@ -14,7 +14,7 @@ function displayRecipes(recipes) {
                     <div class="col-4"><i class="far fa-clock"></i> ${recipe.time} min</div>
                 </div>
                 <div class="row ingredientsDescription">
-                  <ul class="col-5 colIngredientsClass">
+                <ul class="col-5 colIngredientsClass">
                     ${recipe.ingredients.map(ingredient => {
                         let result = `<li style=" white-space: nowrap; overflow:hidden; text-overflow: ellipsis;"><span style="font-weight: 900;">${ingredient.ingredient}</span>`;
                         if (ingredient.quantity) {
@@ -54,14 +54,14 @@ function recherchePrincipale(recipes) {
         )
 
         if (filtreRecipes.length) {
-            displayRecipes(filtreRecipes)
+            displayRecipes(filtreRecipes);
         }
         else {
-            afficheArticleRecette.innerHTML = '<p>Aucune recette ne correspond à votre recherche.</p>'
+            afficheArticleRecette.innerHTML = '<p>Aucune recette ne correspond à votre recherche.</p>';
         }
-        updateDropdowns(filtreRecipes)
+        updateDropdowns(filtreRecipes);
 
-    })
+    });
 }
 function reinitializeDropdownInteractions() {
     dropdownInteractions('ingredientsDropdown', 'ingredientsDropdownHeader', '#3282f7')
@@ -82,23 +82,23 @@ function updateDropdowns(filtreRecipes) {
     const utensilsSet = new Set()
     filtreRecipes.forEach(recipe => {
         recipe.ingredients.forEach(item => {
-            ingredientsSet.add(item.ingredient)
+            ingredientsSet.add(item.ingredient);
         })
-        appliancesSet.add(recipe.appliance)
+        appliancesSet.add(recipe.appliance);
         recipe.ustensils.forEach(ustensil => {
-            utensilsSet.add(ustensil)
+            utensilsSet.add(ustensil);
         })
     })
     // Mise à jour des dropdowns avec les éléments filtrés
-    updateDropdownList('ingredientsDropdown', Array.from(ingredientsSet))
-    updateDropdownList('appareilsDropdown', Array.from(appliancesSet))
-    updateDropdownList('ustensilesDropdown', Array.from(utensilsSet))
+    updateDropdownList('ingredientsDropdown', Array.from(ingredientsSet));
+    updateDropdownList('appareilsDropdown', Array.from(appliancesSet));
+    updateDropdownList('ustensilesDropdown', Array.from(utensilsSet));
     // Réinitialisation des nteractions
     reinitializeDropdownInteractions()
 }
 // fonction pour mettre à jour les listes des dropdowns
 function updateDropdownList(id, items) {
-    const dropdownList = document.querySelector(`.${id} .dropdownList ul`)
-    dropdownList.innerHTML = items.map(item => `<li>${item}</li>`).join('')
+    const dropdownList = document.querySelector(`.${id} .dropdownList ul`);
+    dropdownList.innerHTML = items.map(item => `<li>${item}</li>`).join('');
 }
-loadRecipes()
+loadRecipes();
